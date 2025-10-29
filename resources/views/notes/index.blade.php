@@ -23,7 +23,7 @@
             <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition duration-200 overflow-hidden">
                 <div class="p-6">
                     <h2 class="text-xl font-semibold text-gray-800 mb-2 truncate">{{ $note->title }}</h2>
-                    <p class="text-gray-600 mb-4 line-clamp-3">{{ Str::limit($note->content, 100) }}</p>
+                    <p class="text-gray-600 mb-4 line-clamp-3">{{ $note->content }}</p>
                     <div class="text-sm text-gray-400 mb-4">
                         {{ $note->updated_at->diffForHumans() }}
                     </div>
