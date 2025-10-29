@@ -1,66 +1,153 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# FA22-BSE-DevOps-MidLab
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Laravel 10 Notes App using MySQL (Docker host db). A fully functional, minimal, and production-ready notes application with CRUD operations.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Full CRUD Operations**: Create, Read, Update, and Delete notes
+- **Clean Tailwind UI**: Modern, responsive interface using Tailwind CSS
+- **MySQL Database**: Running in Docker container for easy setup
+- **RESTful API**: Proper resource routes and controller methods
+- **Laravel 10**: Built on the latest Laravel framework
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tech Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Laravel 10**: PHP framework
+- **MySQL 8.0**: Database (via Docker)
+- **Tailwind CSS**: Styling (via CDN)
+- **PHP 8.1+**: Programming language
 
-## Learning Laravel
+## Prerequisites
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- PHP >= 8.1
+- Composer
+- Docker & Docker Compose
+- Node.js & NPM (optional, for asset compilation)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Installation
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd FA22-BSE-DevOps-MidLab
+```
 
-## Laravel Sponsors
+2. Install PHP dependencies:
+```bash
+composer install
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+3. Copy environment file:
+```bash
+cp .env.example .env
+```
 
-### Premium Partners
+4. Generate application key:
+```bash
+php artisan key:generate
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+5. Start MySQL with Docker:
+```bash
+docker-compose up -d
+```
 
-## Contributing
+6. Wait for MySQL to be ready (about 30 seconds), then run migrations:
+```bash
+php artisan migrate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+7. Start the development server:
+```bash
+php artisan serve
+```
 
-## Code of Conduct
+8. Visit `http://localhost:8000` in your browser
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Application Structure
 
-## Security Vulnerabilities
+### Models
+- `Note` model with fillable fields: `title`, `content`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Controllers
+- `NoteController` with 7 RESTful methods:
+  - `index()` - Display all notes
+  - `create()` - Show create form
+  - `store()` - Store new note
+  - `show($id)` - Display single note
+  - `edit($id)` - Show edit form
+  - `update($id)` - Update note
+  - `destroy($id)` - Delete note
+
+### Routes
+- Resource routes in `routes/web.php`:
+  - `GET /notes` - List all notes
+  - `GET /notes/create` - Show create form
+  - `POST /notes` - Store new note
+  - `GET /notes/{id}` - Show single note
+  - `GET /notes/{id}/edit` - Show edit form
+  - `PUT/PATCH /notes/{id}` - Update note
+  - `DELETE /notes/{id}` - Delete note
+
+### Views
+- `layouts/app.blade.php` - Main layout with Tailwind CSS
+- `notes/index.blade.php` - List all notes with grid layout
+- `notes/form.blade.php` - Create/Edit form (shared)
+- `notes/show.blade.php` - Single note view
+
+### Database
+- Migration: `create_notes_table` with fields:
+  - `id` (primary key)
+  - `title` (string)
+  - `content` (text)
+  - `created_at` (timestamp)
+  - `updated_at` (timestamp)
+
+## Docker Configuration
+
+The `docker-compose.yml` file provides:
+- MySQL 8.0 database
+- Persistent data volume
+- Port 3306 exposed for local connection
+
+## Usage
+
+### Creating a Note
+1. Click "+ New Note" button
+2. Enter title and content
+3. Click "Create Note"
+
+### Viewing Notes
+- All notes are displayed on the home page in a grid layout
+- Click "View" to see full note details
+
+### Editing a Note
+1. Click "Edit" on any note
+2. Modify title or content
+3. Click "Update Note"
+
+### Deleting a Note
+1. Click "Delete" on any note
+2. Confirm deletion in the popup
+
+## Testing
+
+Run the test suite:
+```bash
+php artisan test
+```
+
+## Production Deployment
+
+For production deployment:
+
+1. Set `APP_ENV=production` in `.env`
+2. Set `APP_DEBUG=false` in `.env`
+3. Configure your production database in `.env`
+4. Run migrations: `php artisan migrate --force`
+5. Optimize: `php artisan optimize`
+6. Set proper permissions on `storage` and `bootstrap/cache` directories
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Open source - MIT License
