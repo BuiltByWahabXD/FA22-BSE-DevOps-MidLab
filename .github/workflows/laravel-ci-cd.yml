@@ -93,7 +93,6 @@ jobs:
       - name: ⚙️ Configure Environment for Testing
         run: |
           php artisan config:clear
-          php artisan cache:clear
           
       # ===== WAIT FOR MYSQL TO BE READY =====
       - name: 🗄️ Wait for MySQL to be Ready
