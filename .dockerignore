@@ -1,0 +1,65 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# CI/CD
+.github
+
+# Documentation
+*.md
+README.md
+TESTING_SUMMARY.md
+PROJECT_STRUCTURE.md
+CI_CD_GUIDE.md
+devops_report.md
+
+# IDE
+.idea
+.vscode
+.fleet
+.zed
+.nova
+.phpactor.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Dependencies
+/node_modules
+/vendor
+
+# Environment files
+.env
+.env.backup
+.env.example
+.env.production
+
+# Testing
+.phpunit.cache
+.phpunit.result.cache
+/tests
+phpunit.xml
+
+# Build artifacts
+/public/hot
+/public/storage
+/public/build
+
+# Storage
+/storage/*.key
+/storage/pail
+
+# Logs
+*.log
+/storage/logs
+
+# Cache
+/bootstrap/cache/*
+!/bootstrap/cache/.gitignore
+
+# Other
+Homestead.json
+Homestead.yaml
+auth.json

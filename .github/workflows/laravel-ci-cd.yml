@@ -1,0 +1,195 @@
+name: Laravel CI/CD Pipeline
+
+on:
+  push:
+    branches: 
+      - main
+      - Testing-Doc-Branch
+      - Docker-Branch
+      - CI-CD-Branch
+  pull_request:
+    branches: 
+      - main
+
+jobs:
+  # ==================== BUILD & TEST JOB ====================
+  build-and-test:
+    name: Build, Lint & Test
+    runs-on: ubuntu-latest
+    
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: ${{ secrets.DB_DATABASE }}
+          MYSQL_USER: ${{ secrets.DB_USERNAME }}
+          MYSQL_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      # ===== CHECKOUT CODE =====
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+        
+      # ===== SETUP PHP =====
+      - name: 🐘 Setup PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, xml, ctype, json, bcmath, pdo, pdo_mysql, tokenizer, openssl, zip, gd
+          coverage: none
+          tools: composer:v2
+          
+      # ===== CACHE COMPOSER DEPENDENCIES =====
+      - name: 📦 Cache Composer Dependencies
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+            
+      # ===== INSTALL DEPENDENCIES =====
+      - name: 🎼 Install Composer Dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction --optimize-autoloader
+        
+      # ===== SETUP NODE.JS =====
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      # ===== INSTALL NODE DEPENDENCIES =====
+      - name: 📦 Install NPM Dependencies
+        run: npm install
+        
+      # ===== COPY ENVIRONMENT FILE =====
+      - name: 📋 Copy Environment File
+        run: cp .env.example .env
+        
+      # ===== GENERATE APPLICATION KEY =====
+      - name: 🔑 Generate Application Key
+        run: php artisan key:generate
+        
+      # ===== CONFIGURE ENVIRONMENT FOR TESTING =====
+      - name: ⚙️ Configure Environment for Testing
+        run: |
+          echo "DB_CONNECTION=mysql" >> .env
+          echo "DB_HOST=127.0.0.1" >> .env
+          echo "DB_PORT=3306" >> .env
+          echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> .env
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+          php artisan config:clear
+          php artisan cache:clear
+          
+      # ===== WAIT FOR MYSQL TO BE READY =====
+      - name: 🗄️ Wait for MySQL to be Ready
+        run: |
+          echo "Waiting for MySQL to be ready..."
+          for i in {1..30}; do
+            if mysqladmin ping -h 127.0.0.1 -P 3306 -u${{ secrets.DB_USERNAME }} -p${{ secrets.DB_PASSWORD }} --silent; then
+              echo "MySQL is ready!"
+              break
+            fi
+            echo "Attempt $i: MySQL not ready yet, waiting..."
+            sleep 2
+          done
+          
+      # ===== RUN DATABASE MIGRATIONS =====
+      - name: 🔄 Run Database Migrations
+        run: php artisan migrate --force
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_DATABASE: ${{ secrets.DB_DATABASE }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          
+      # ===== RUN PHPUNIT TESTS =====
+      - name: 🧪 Execute PHPUnit Tests
+        run: php artisan test --parallel
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_DATABASE: ${{ secrets.DB_DATABASE }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          APP_ENV: testing
+          
+      # ===== RUN LARAVEL PINT (CODE STYLE) =====
+      - name: 🎨 Run Laravel Pint (Code Style)
+        run: ./vendor/bin/pint --test
+        continue-on-error: true
+        
+      # ===== BUILD FRONTEND ASSETS =====
+      - name: 🏗️ Build Frontend Assets
+        run: npm run build
+        continue-on-error: true
+
+  # ==================== DOCKER BUILD & DEPLOY JOB ====================
+  docker-build-deploy:
+    name: Build & Push Docker Image
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+      # ===== CHECKOUT CODE =====
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+        
+      # ===== SET UP DOCKER BUILDX =====
+      - name: 🐳 Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        
+      # ===== LOGIN TO DOCKER HUB =====
+      - name: 🔐 Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+          
+      # ===== EXTRACT METADATA FOR DOCKER =====
+      - name: 📦 Extract Metadata for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ secrets.DOCKER_USERNAME }}/laravel-notes-app
+          tags: |
+            type=ref,event=branch
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
+            
+      # ===== BUILD AND PUSH DOCKER IMAGE =====
+      - name: 🏗️ Build and Push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./docker/php/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/laravel-notes-app:buildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/laravel-notes-app:buildcache,mode=max
+          
+      # ===== DEPLOYMENT SUMMARY =====
+      - name: ✅ Deployment Summary
+        run: |
+          echo "🎉 Pipeline completed successfully!"
+          echo "📦 Docker image pushed to Docker Hub"
+          echo "🏷️ Tags: ${{ steps.meta.outputs.tags }}"
+          echo "🔗 Image: ${{ secrets.DOCKER_USERNAME }}/laravel-notes-app"
+          echo "📅 Date: $(date)"
+          echo "🌿 Branch: ${{ github.ref_name }}"
+          echo "📝 Commit: ${{ github.sha }}"
