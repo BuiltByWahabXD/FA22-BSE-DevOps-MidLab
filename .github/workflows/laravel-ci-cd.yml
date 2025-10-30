@@ -99,10 +99,10 @@ jobs:
         run: |
           echo "Waiting for MySQL to be ready..."
           for i in {1..30}; do
-            if mysqladmin ping -h 127.0.0.1 -P 3306 -u "${{ secrets.DB_USERNAME }}" -p"${{ secrets.DB_PASSWORD }}" --silent; then
+            if MYSQL_PWD="${{ secrets.DB_PASSWORD }}" mysqladmin ping -h 127.0.0.1 -P 3306 -u "${{ secrets.DB_USERNAME }}" --silent; then
               echo "MySQL is ready!"
               echo "Testing database connection..."
-              mysql -h 127.0.0.1 -P 3306 -u "${{ secrets.DB_USERNAME }}" -p"${{ secrets.DB_PASSWORD }}" -e "SHOW DATABASES;"
+              MYSQL_PWD="${{ secrets.DB_PASSWORD }}" mysql -h 127.0.0.1 -P 3306 -u "${{ secrets.DB_USERNAME }}" -e "SHOW DATABASES;"
               break
             fi
             echo "Attempt $i: MySQL not ready yet, waiting..."
