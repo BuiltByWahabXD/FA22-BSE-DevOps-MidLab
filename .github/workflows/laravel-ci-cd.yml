@@ -21,7 +21,7 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: root
+          MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
           MYSQL_DATABASE: ${{ secrets.DB_DATABASE }}
           MYSQL_USER: ${{ secrets.DB_USERNAME }}
           MYSQL_PASSWORD: ${{ secrets.DB_PASSWORD }}
@@ -82,7 +82,7 @@ jobs:
           APP_URL=http://localhost
           
           DB_CONNECTION=mysql
-          DB_HOST=127.0.0.1
+          DB_HOST=mysql
           DB_PORT=3306
           DB_DATABASE=${{ secrets.DB_DATABASE }}
           DB_USERNAME=${{ secrets.DB_USERNAME }}
@@ -115,7 +115,7 @@ jobs:
         run: |
           echo "Waiting for MySQL to be ready..."
           for i in {1..30}; do
-            if mysqladmin ping -h 127.0.0.1 -P 3306 -u "${{ secrets.DB_USERNAME }}" --silent; then
+            if mysqladmin ping -h mysql -P 3306 -u "${{ secrets.DB_USERNAME }}" --silent; then
               echo "MySQL is ready!"
               break
             fi
