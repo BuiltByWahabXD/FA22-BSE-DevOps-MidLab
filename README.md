@@ -588,9 +588,9 @@ This project was developed by **Group 17** as a collaborative effort:
 
 | Member | Role | Responsibilities |
 |--------|------|-----------------|
-| **FA22-BSE-160** | Infrastructure Setup | - Docker & Docker Compose configuration<br>- Application containerization<br>- Environment setup<br>- Initial project structure |
-| **FA22-BSE-154** | CI/CD Engineer | - GitHub Actions workflow design<br>- Docker Hub integration<br>- Secret management<br>- Pipeline automation |
-| **FA22-BSE-206** | Testing & Documentation | - PHPUnit configuration<br>- Feature test implementation<br>- Project documentation<br>- DevOps report |
+| **Teammate 1** | Infrastructure Setup | - Docker & Docker Compose configuration<br>- Application containerization<br>- Environment setup<br>- Initial project structure |
+| **Teammate 2** | CI/CD Engineer | - GitHub Actions workflow design<br>- Docker Hub integration<br>- Secret management<br>- Pipeline automation |
+| **Teammate 3** | Testing & Documentation | - PHPUnit configuration<br>- Feature test implementation<br>- Project documentation<br>- DevOps report |
 
 ### Collaboration Tools
 
