@@ -74,17 +74,30 @@ jobs:
       - name: 📋 Copy Environment File
         run: |
           cp .env.example .env
-          sed -i 's/DB_CONNECTION=.*/DB_CONNECTION=mysql/' .env
-          sed -i 's/DB_HOST=.*/DB_HOST=127.0.0.1/' .env
-          sed -i 's/DB_PORT=.*/DB_PORT=3306/' .env
-          sed -i 's/DB_DATABASE=.*/DB_DATABASE=${{ secrets.DB_DATABASE }}/' .env
-          sed -i 's/DB_USERNAME=.*/DB_USERNAME=${{ secrets.DB_USERNAME }}/' .env
-          sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=${{ secrets.DB_PASSWORD }}/' .env
-          sed -i 's/CACHE_STORE=.*/CACHE_STORE=array/' .env
-          sed -i 's/SESSION_DRIVER=.*/SESSION_DRIVER=array/' .env
-          sed -i 's/QUEUE_CONNECTION=.*/QUEUE_CONNECTION=sync/' .env
-          echo "=== Environment file configured ==="
-          grep "DB_" .env
+          cat > .env << EOF
+          APP_NAME=Laravel
+          APP_ENV=testing
+          APP_KEY=
+          APP_DEBUG=true
+          APP_URL=http://localhost
+          
+          DB_CONNECTION=mysql
+          DB_HOST=127.0.0.1
+          DB_PORT=3306
+          DB_DATABASE=${{ secrets.DB_DATABASE }}
+          DB_USERNAME=${{ secrets.DB_USERNAME }}
+          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+          
+          CACHE_DRIVER=array
+          CACHE_STORE=array
+          SESSION_DRIVER=array
+          QUEUE_CONNECTION=sync
+          
+          BROADCAST_CONNECTION=log
+          FILESYSTEM_DISK=local
+          MAIL_MAILER=log
+          EOF
+          echo "=== .env file created ==="
         
       # ===== GENERATE APPLICATION KEY =====
       - name: 🔑 Generate Application Key
