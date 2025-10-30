@@ -1,5 +1,5 @@
 # Testing & Documentation - Implementation Summary
-## Group 17 - Teammate 3 Deliverables
+## Group 17 - Ali Zain
 
 ---
 
