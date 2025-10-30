@@ -22,9 +22,9 @@ jobs:
         image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: ${{ secrets.DB_DATABASE }}
-          MYSQL_USER: ${{ secrets.DB_USERNAME }}
-          MYSQL_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          MYSQL_DATABASE: notes_db
+          MYSQL_USER: laravel_user
+          MYSQL_PASSWORD: password
         ports:
           - 3306:3306
         options: >-
@@ -74,30 +74,16 @@ jobs:
       - name: 📋 Copy Environment File
         run: |
           cp .env.example .env
-          cat > .env << EOF
-          APP_NAME=Laravel
-          APP_ENV=testing
-          APP_KEY=
-          APP_DEBUG=true
-          APP_URL=http://localhost
-          
-          DB_CONNECTION=mysql
-          DB_HOST=127.0.0.1
-          DB_PORT=3306
-          DB_DATABASE=${{ secrets.DB_DATABASE }}
-          DB_USERNAME=${{ secrets.DB_USERNAME }}
-          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-          
-          CACHE_DRIVER=array
-          CACHE_STORE=array
-          SESSION_DRIVER=array
-          QUEUE_CONNECTION=sync
-          
-          BROADCAST_CONNECTION=log
-          FILESYSTEM_DISK=local
-          MAIL_MAILER=log
-          EOF
-          echo "=== .env file created ==="
+          sed -i 's/DB_CONNECTION=.*/DB_CONNECTION=mysql/' .env
+          sed -i 's/DB_HOST=.*/DB_HOST=127.0.0.1/' .env
+          sed -i 's/DB_PORT=.*/DB_PORT=3306/' .env
+          sed -i 's/DB_DATABASE=.*/DB_DATABASE=notes_db/' .env
+          sed -i 's/DB_USERNAME=.*/DB_USERNAME=laravel_user/' .env
+          sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=password/' .env
+          sed -i 's/CACHE_DRIVER=.*/CACHE_DRIVER=array/' .env
+          sed -i 's/SESSION_DRIVER=.*/SESSION_DRIVER=array/' .env
+          sed -i 's/QUEUE_CONNECTION=.*/QUEUE_CONNECTION=sync/' .env
+          echo "=== .env file configured ==="
         
       # ===== GENERATE APPLICATION KEY =====
       - name: 🔑 Generate Application Key
@@ -111,11 +97,11 @@ jobs:
       # ===== WAIT FOR MYSQL TO BE READY =====
       - name: 🗄️ Wait for MySQL to be Ready
         env:
-          MYSQL_PWD: ${{ secrets.DB_PASSWORD }}
+          MYSQL_PWD: password
         run: |
           echo "Waiting for MySQL to be ready..."
           for i in {1..30}; do
-            if mysqladmin ping -h 127.0.0.1 -P 3306 -u "${{ secrets.DB_USERNAME }}" --silent; then
+            if mysqladmin ping -h 127.0.0.1 -P 3306 -u "laravel_user" --silent; then
               echo "MySQL is ready!"
               break
             fi
@@ -126,22 +112,15 @@ jobs:
       # ===== RUN DATABASE MIGRATIONS =====
       - name: 🔄 Run Database Migrations
         run: |
-          echo "=== Verifying database configuration ==="
-          echo "DB_CONNECTION: $DB_CONNECTION"
-          echo "DB_HOST: $DB_HOST"
-          echo "DB_PORT: $DB_PORT"
-          echo "DB_DATABASE: $DB_DATABASE"
-          echo "DB_USERNAME: $DB_USERNAME"
-          echo "DB_PASSWORD length: ${#DB_PASSWORD}"
-          php artisan config:clear
+          echo "=== Running database migrations ==="
           php artisan migrate --force
         env:
           DB_CONNECTION: mysql
           DB_HOST: 127.0.0.1
           DB_PORT: 3306
-          DB_DATABASE: ${{ secrets.DB_DATABASE }}
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_DATABASE: notes_db
+          DB_USERNAME: laravel_user
+          DB_PASSWORD: password
           APP_ENV: testing
           CACHE_DRIVER: array
           SESSION_DRIVER: array
@@ -154,9 +133,9 @@ jobs:
           DB_CONNECTION: mysql
           DB_HOST: 127.0.0.1
           DB_PORT: 3306
-          DB_DATABASE: ${{ secrets.DB_DATABASE }}
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_DATABASE: notes_db
+          DB_USERNAME: laravel_user
+          DB_PASSWORD: password
           APP_ENV: testing
           CACHE_DRIVER: array
           SESSION_DRIVER: array
