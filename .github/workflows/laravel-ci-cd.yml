@@ -12,34 +12,33 @@ on:
       - main
 
 jobs:
-  # ==================== STAGE 1, 2, 3: BUILD, LINT & TEST JOB ====================
+  # ==================== BUILD & TEST JOB ====================
   build-and-test:
     name: Build, Lint & Test
     runs-on: ubuntu-latest
-    
-    # CRITICAL FIX 1: Access the Database Secrets Environment
-    environment: Database Secrets 
     
     services:
       mysql:
         image: mysql:8.0
         env:
-          # Secrets are now available because of 'environment: Database Secrets'
           MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
           MYSQL_DATABASE: ${{ secrets.DB_DATABASE }}
           MYSQL_USER: ${{ secrets.DB_USERNAME }}
           MYSQL_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        # Removed 'ports' for cleaner CI execution
+        ports:
+          - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping -h 127.0.0.1 -u root -p${{ secrets.DB_PASSWORD }} --silent"
+          --health-cmd="mysqladmin ping --silent"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
 
     steps:
+      # ===== CHECKOUT CODE =====
       - name: 📥 Checkout Code
         uses: actions/checkout@v4
         
+      # ===== SETUP PHP =====
       - name: 🐘 Setup PHP 8.2
         uses: shivammathur/setup-php@v2
         with:
@@ -48,6 +47,7 @@ jobs:
           coverage: none
           tools: composer:v2
           
+      # ===== CACHE COMPOSER DEPENDENCIES =====
       - name: 📦 Cache Composer Dependencies
         uses: actions/cache@v3
         with:
@@ -56,35 +56,37 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
             
+      # ===== INSTALL DEPENDENCIES =====
       - name: 🎼 Install Composer Dependencies
         run: composer install --prefer-dist --no-progress --no-interaction --optimize-autoloader
         
+      # ===== SETUP NODE.JS =====
       - name: 📦 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           
+      # ===== INSTALL NODE DEPENDENCIES =====
       - name: 📦 Install NPM Dependencies
         run: npm install
         
-      # ===== COPY ENVIRONMENT FILE (Secrets Fix Applied) =====
+      # ===== COPY ENVIRONMENT FILE =====
       - name: 📋 Copy Environment File
         run: |
           cp .env.example .env
-          # Use shell variables ($) which are passed via the step's env block below
           cat > .env << EOF
           APP_NAME=Laravel
           APP_ENV=testing
-          APP_KEY=base64:$(php artisan key:generate --show)
+          APP_KEY=
           APP_DEBUG=true
           APP_URL=http://localhost
           
           DB_CONNECTION=mysql
-          DB_HOST=mysql # CRITICAL FIX 2: Correct Hostname
+          DB_HOST=mysql
           DB_PORT=3306
-          DB_DATABASE=${{ env.DB_DATABASE }}
-          DB_USERNAME=${{ env.DB_USERNAME }}
-          DB_PASSWORD=${{ env.DB_PASSWORD }}
+          DB_DATABASE=${{ secrets.DB_DATABASE }}
+          DB_USERNAME=${{ secrets.DB_USERNAME }}
+          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
           
           CACHE_DRIVER=array
           CACHE_STORE=array
@@ -96,24 +98,24 @@ jobs:
           MAIL_MAILER=log
           EOF
           echo "=== .env file created ==="
-        env:
-          # CRITICAL FIX 3: Pass Environment Secrets as step-level ENV variables
-          DB_DATABASE: ${{ secrets.DB_DATABASE }}
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-
-      - name: ⚙️ Clear Config & Cache
-        run: php artisan config:clear
         
-      # ===== WAIT FOR MYSQL TO BE READY (Host/User Fix Applied) =====
+      # ===== GENERATE APPLICATION KEY =====
+      - name: 🔑 Generate Application Key
+        run: php artisan key:generate
+        
+      # ===== CONFIGURE ENVIRONMENT FOR TESTING =====
+      - name: ⚙️ Configure Environment for Testing
+        run: |
+          php artisan config:clear
+          
+      # ===== WAIT FOR MYSQL TO BE READY =====
       - name: 🗄️ Wait for MySQL to be Ready
         env:
           MYSQL_PWD: ${{ secrets.DB_PASSWORD }}
         run: |
           echo "Waiting for MySQL to be ready..."
           for i in {1..30}; do
-            # Use 'root' and the DB_PASSWORD secret for reliable initial ping
-            if mysqladmin ping -h mysql -P 3306 -u root --silent; then 
+            if mysqladmin ping -h mysql -P 3306 -u "${{ secrets.DB_USERNAME }}" --silent; then
               echo "MySQL is ready!"
               break
             fi
@@ -121,50 +123,79 @@ jobs:
             sleep 2
           done
           
-      # ===== RUN DATABASE MIGRATIONS (Redundancy Removed) =====
+      # ===== RUN DATABASE MIGRATIONS =====
       - name: 🔄 Run Database Migrations
-        # Relies on the .env file and config cache being cleared
-        run: php artisan migrate --force
-
-      # ===== RUN PHPUNIT TESTS (Redundancy Removed) =====
+        run: |
+          echo "=== Verifying database configuration ==="
+          echo "DB_CONNECTION: $DB_CONNECTION"
+          echo "DB_HOST: $DB_HOST"
+          echo "DB_PORT: $DB_PORT"
+          echo "DB_DATABASE: $DB_DATABASE"
+          echo "DB_USERNAME: $DB_USERNAME"
+          echo "DB_PASSWORD length: ${#DB_PASSWORD}"
+          php artisan config:clear
+          php artisan migrate --force
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: mysql
+          DB_PORT: 3306
+          DB_DATABASE: ${{ secrets.DB_DATABASE }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          APP_ENV: testing
+          CACHE_DRIVER: array
+          SESSION_DRIVER: array
+          QUEUE_CONNECTION: sync
+          
+      # ===== RUN PHPUNIT TESTS =====
       - name: 🧪 Execute PHPUnit Tests
-        # Relies on the .env file
         run: php artisan test --parallel
-        
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: mysql
+          DB_PORT: 3306
+          DB_DATABASE: ${{ secrets.DB_DATABASE }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          APP_ENV: testing
+          CACHE_DRIVER: array
+          SESSION_DRIVER: array
+          QUEUE_CONNECTION: sync
+          
       # ===== RUN LARAVEL PINT (CODE STYLE) =====
       - name: 🎨 Run Laravel Pint (Code Style)
         run: ./vendor/bin/pint --test
         continue-on-error: true
         
+      # ===== BUILD FRONTEND ASSETS =====
       - name: 🏗️ Build Frontend Assets
         run: npm run build
         continue-on-error: true
 
-  # ==================== STAGE 4, 5: DOCKER BUILD & DEPLOY JOB ====================
+  # ==================== DOCKER BUILD & DEPLOY JOB ====================
   docker-build-deploy:
     name: Build & Push Docker Image
     needs: build-and-test
     runs-on: ubuntu-latest
-    # CRITICAL FIX 4: Conditional Deployment requires SUCCESS of 'build-and-test'
-    if: success() && github.event_name == 'push' && github.ref == 'refs/heads/main'
-    
-    # CRITICAL FIX 5: Access the Docker Hub Credentials Environment
-    environment: Docker Hub Credentials
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     
     steps:
+      # ===== CHECKOUT CODE =====
       - name: 📥 Checkout Code
         uses: actions/checkout@v4
         
+      # ===== SET UP DOCKER BUILDX =====
       - name: 🐳 Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
         
+      # ===== LOGIN TO DOCKER HUB =====
       - name: 🔐 Login to Docker Hub
         uses: docker/login-action@v3
         with:
-          # These secrets are now available because of 'environment: Docker Hub Credentials'
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
           
+      # ===== EXTRACT METADATA FOR DOCKER =====
       - name: 📦 Extract Metadata for Docker
         id: meta
         uses: docker/metadata-action@v5
@@ -175,6 +206,7 @@ jobs:
             type=sha,prefix={{branch}}-
             type=raw,value=latest,enable={{is_default_branch}}
             
+      # ===== BUILD AND PUSH DOCKER IMAGE =====
       - name: 🏗️ Build and Push Docker Image
         uses: docker/build-push-action@v5
         with:
@@ -186,8 +218,13 @@ jobs:
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/laravel-notes-app:buildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/laravel-notes-app:buildcache,mode=max
           
+      # ===== DEPLOYMENT SUMMARY =====
       - name: ✅ Deployment Summary
         run: |
           echo "🎉 Pipeline completed successfully!"
           echo "📦 Docker image pushed to Docker Hub"
+          echo "🏷️ Tags: ${{ steps.meta.outputs.tags }}"
           echo "🔗 Image: ${{ secrets.DOCKER_USERNAME }}/laravel-notes-app"
+          echo "📅 Date: $(date)"
+          echo "🌿 Branch: ${{ github.ref_name }}"
+          echo "📝 Commit: ${{ github.sha }}"
