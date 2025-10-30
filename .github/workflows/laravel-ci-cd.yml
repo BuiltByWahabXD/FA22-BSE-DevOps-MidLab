@@ -101,6 +101,7 @@ jobs:
           for i in {1..30}; do
             if mysqladmin ping -h 127.0.0.1 -P 3306 -u${{ secrets.DB_USERNAME }} -p${{ secrets.DB_PASSWORD }} --silent; then
               echo "MySQL is ready!"
+              mysql -h 127.0.0.1 -P 3306 -u${{ secrets.DB_USERNAME }} -p${{ secrets.DB_PASSWORD }} -e "SHOW DATABASES;"
               break
             fi
             echo "Attempt $i: MySQL not ready yet, waiting..."
@@ -117,6 +118,10 @@ jobs:
           DB_DATABASE: ${{ secrets.DB_DATABASE }}
           DB_USERNAME: ${{ secrets.DB_USERNAME }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          APP_ENV: testing
+          CACHE_DRIVER: array
+          SESSION_DRIVER: array
+          QUEUE_CONNECTION: sync
           
       # ===== RUN PHPUNIT TESTS =====
       - name: 🧪 Execute PHPUnit Tests
@@ -129,6 +134,9 @@ jobs:
           DB_USERNAME: ${{ secrets.DB_USERNAME }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           APP_ENV: testing
+          CACHE_DRIVER: array
+          SESSION_DRIVER: array
+          QUEUE_CONNECTION: sync
           
       # ===== RUN LARAVEL PINT (CODE STYLE) =====
       - name: 🎨 Run Laravel Pint (Code Style)
