@@ -96,13 +96,13 @@ jobs:
           
       # ===== WAIT FOR MYSQL TO BE READY =====
       - name: 🗄️ Wait for MySQL to be Ready
+        env:
+          MYSQL_PWD: ${{ secrets.DB_PASSWORD }}
         run: |
           echo "Waiting for MySQL to be ready..."
           for i in {1..30}; do
-            if MYSQL_PWD="${{ secrets.DB_PASSWORD }}" mysqladmin ping -h 127.0.0.1 -P 3306 -u "${{ secrets.DB_USERNAME }}" --silent; then
+            if mysqladmin ping -h 127.0.0.1 -P 3306 -u "${{ secrets.DB_USERNAME }}" --silent; then
               echo "MySQL is ready!"
-              echo "Testing database connection..."
-              MYSQL_PWD="${{ secrets.DB_PASSWORD }}" mysql -h 127.0.0.1 -P 3306 -u "${{ secrets.DB_USERNAME }}" -e "SHOW DATABASES;"
               break
             fi
             echo "Attempt $i: MySQL not ready yet, waiting..."
