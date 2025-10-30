@@ -65,7 +65,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
           
       # ===== INSTALL NODE DEPENDENCIES =====
       - name: 📦 Install NPM Dependencies
