@@ -36,9 +36,8 @@
         <env name="QUEUE_CONNECTION" value="sync"/>
         
         <!-- Database Configuration for MySQL -->
-        <!-- Using mysql as DB_HOST because that's the service name in docker-compose.yml -->
-        <!-- For local testing: Use actual values from docker-compose.yml -->
-        <!-- For CI/CD: GitHub Actions will replace these with secrets -->
+        <!-- For local Docker testing: Uses values from docker-compose.yml -->
+        <!-- For CI/CD: GitHub Actions will override these with environment variables -->
         <env name="DB_CONNECTION" value="mysql"/>
         <env name="DB_HOST" value="mysql"/>
         <env name="DB_PORT" value="3306"/>
