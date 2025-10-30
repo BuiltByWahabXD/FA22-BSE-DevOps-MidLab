@@ -125,7 +125,16 @@ jobs:
           
       # ===== RUN DATABASE MIGRATIONS =====
       - name: 🔄 Run Database Migrations
-        run: php artisan migrate --force
+        run: |
+          echo "=== Verifying database configuration ==="
+          echo "DB_CONNECTION: $DB_CONNECTION"
+          echo "DB_HOST: $DB_HOST"
+          echo "DB_PORT: $DB_PORT"
+          echo "DB_DATABASE: $DB_DATABASE"
+          echo "DB_USERNAME: $DB_USERNAME"
+          echo "DB_PASSWORD length: ${#DB_PASSWORD}"
+          php artisan config:clear
+          php artisan migrate --force
         env:
           DB_CONNECTION: mysql
           DB_HOST: 127.0.0.1
