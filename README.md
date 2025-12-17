@@ -1,5 +1,5 @@
-# Laravel Notes Application
-### DevOps Project - Group 17
+# Laravel Notes Application - DevOps Final Lab
+### Complete CI/CD Pipeline with Infrastructure as Code
 
 ![Laravel](https://img.shields.io/badge/Laravel-11.x-red?style=flat-square&logo=laravel)
 ![PHP](https://img.shields.io/badge/PHP-8.2+-blue?style=flat-square&logo=php)
@@ -11,93 +11,296 @@
 ![Ansible](https://img.shields.io/badge/Ansible-Automation-red?style=flat-square&logo=ansible)
 ![CI/CD](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-green?style=flat-square&logo=githubactions)
 ![Monitoring](https://img.shields.io/badge/Monitoring-Prometheus%20%26%20Grafana-orange?style=flat-square)
-
----
-
-## 🎯 Quick Start - Final Lab
-
-> **📢 IMPORTANT**: This is the **FINAL LAB** extension of the Mid-Lab project.
-> 
-> **For complete Final Lab documentation, see: [FINAL_LAB_README.md](FINAL_LAB_README.md)**
-
-### Final Lab Components
-
-✅ **Redis** - Caching & Queue  
-✅ **Kubernetes** - Orchestration  
-✅ **Terraform** - Infrastructure as Code  
-✅ **Ansible** - Configuration Management  
-✅ **Prometheus & Grafana** - Monitoring  
-
-### Quick Deploy Options
-
-```bash
-# Docker Compose (Fastest)
-docker-compose up -d
-
-# Kubernetes
-./deploy-k8s.sh  # or deploy-k8s.ps1 on Windows
-
-# Terraform
-cd terraform && terraform init && terraform apply
-
-# Ansible
-cd ansible && ansible-playbook deploy.yml
-```
-
-**See [FINAL_LAB_README.md](FINAL_LAB_README.md) for complete instructions.**
+![AWS](https://img.shields.io/badge/AWS-ECS-orange?style=flat-square&logo=amazonaws)
 
 ---
 
 ## 📋 Table of Contents
 
-- [Project Overview](#-project-overview)
-- [Features](#-features)
-- [Tech Stack](#-tech-stack)
-- [Prerequisites](#-prerequisites)
-- [Installation](#-installation)
-- [Running the Application](#-running-the-application)
-- [Testing](#-testing)
-- [Code Quality & Linting](#-code-quality--linting)
+- [Quick Start](#-quick-start)
+- [How to Run Locally](#-how-to-run-locally)
+- [Run via Docker Compose](#-run-via-docker-compose)
+- [Run via Kubernetes](#-run-via-kubernetes)
+- [Infrastructure Setup](#-infrastructure-setup-terraform)
+- [Infrastructure Teardown](#-infrastructure-teardown)
 - [CI/CD Pipeline](#-cicd-pipeline)
-- [Docker Configuration](#-docker-configuration)
-- [Database Management](#-database-management)
-- [Contributors](#-contributors)
-- [Proof of Work](#-proof-of-work)
-- [License](#-license)
+- [Monitoring](#-monitoring)
+- [Project Structure](#-project-structure)
+- [Troubleshooting](#-troubleshooting)
 
 ---
 
-## 🎯 Project Overview
+## 🚀 Quick Start
 
-The **Laravel Notes Application** is a full-stack web application developed as part of the DevOps Mid-Lab Exam. This project demonstrates modern DevOps practices including:
-
-- **Containerization** with Docker and Docker Compose
-- **Automated Testing** with PHPUnit
-- **Continuous Integration/Continuous Deployment (CI/CD)** with GitHub Actions
-- **Database Management** with MySQL
-- **Code Quality** enforcement with Laravel Pint
-
-The application provides a simple yet robust CRUD (Create, Read, Update, Delete) interface for managing notes, built using Laravel's elegant syntax and best practices.
-
-### 🎓 Academic Context
-
-- **Institution**: COMSATS University
-- **Course**: DevOps
-- **Project**: Mid-Lab + Final Lab Extension
-- **Group**: Group 17
-- **Semester**: 7
-- **Date**: October 2025 - December 2025
+This project demonstrates a complete DevOps pipeline with:
+- ✅ Automated CI/CD (GitHub Actions)
+- ✅ Infrastructure as Code (Terraform)
+- ✅ Container Orchestration (Kubernetes)
+- ✅ Configuration Management (Ansible)
+- ✅ Monitoring & Observability (Prometheus & Grafana)
+- ✅ Cloud Deployment (AWS ECS)
 
 ---
 
-## ✨ Features
+## 🖥️ How to Run Locally
 
-### Application Features
-- ✅ Create, Read, Update, and Delete notes
-- ✅ RESTful API architecture
-- ✅ Database-backed persistence with MySQL
-- ✅ Redis caching and queue management
-- ✅ Clean and intuitive user interface
+### Prerequisites
+- PHP 8.2+
+- Composer
+- MySQL 8.0
+- Redis 7
+- Node.js 20+
+
+### Step 1: Clone Repository
+```bash
+git clone https://github.com/BuiltByWahabXD/FA22-BSE-DevOps-MidLab.git
+cd FA22-BSE-DevOps-MidLab
+```
+
+### Step 2: Install Dependencies
+```bash
+# Install PHP dependencies
+composer install
+
+# Install NPM dependencies
+npm install
+```
+
+### Step 3: Configure Environment
+```bash
+# Copy environment file
+cp .env.example .env
+
+# Generate application key
+php artisan key:generate
+
+# Configure database in .env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=notes_db
+DB_USERNAME=root
+DB_PASSWORD=your_password
+
+# Configure Redis
+REDIS_HOST=127.0.0.1
+REDIS_PORT=6379
+```
+
+### Step 4: Setup Database
+```bash
+# Create database
+mysql -u root -p -e "CREATE DATABASE notes_db;"
+
+# Run migrations
+php artisan migrate
+
+# (Optional) Seed data
+php artisan db:seed
+```
+
+### Step 5: Build Frontend Assets
+```bash
+npm run build
+```
+
+### Step 6: Start Development Server
+```bash
+php artisan serve
+```
+
+**Access:** http://localhost:8000
+
+---
+
+## 🐳 Run via Docker Compose
+
+### Prerequisites
+- Docker Desktop
+- Docker Compose
+
+### Step 1: Start All Services
+```bash
+docker-compose up -d
+```
+
+This will start:
+- **App** (Laravel + Nginx) on port 80
+- **MySQL** on port 3306
+- **Redis** on port 6379
+
+### Step 2: Run Migrations
+```bash
+docker-compose exec app php artisan migrate
+```
+
+### Step 3: Access Application
+**URL:** http://localhost
+
+### Stop Services
+```bash
+docker-compose down
+```
+
+### View Logs
+```bash
+# All services
+docker-compose logs -f
+
+# Specific service
+docker-compose logs -f app
+```
+
+---
+
+## ☸️ Run via Kubernetes
+
+### Prerequisites
+- Minikube or local Kubernetes cluster
+- kubectl
+- Docker
+
+### Step 1: Start Minikube
+```bash
+minikube start --cpus=4 --memory=4096
+```
+
+### Step 2: Create Namespace
+```bash
+kubectl apply -f k8s/namespace.yml
+```
+
+### Step 3: Deploy Services
+```bash
+# Deploy ConfigMaps and Secrets
+kubectl apply -f k8s/configmap.yml
+kubectl apply -f k8s/secret.yml
+
+# Deploy MySQL
+kubectl apply -f k8s/mysql/ -R
+
+# Deploy Redis
+kubectl apply -f k8s/redis/ -R
+
+# Deploy Application
+kubectl apply -f k8s/app/ -R
+```
+
+### Step 4: Wait for Pods to be Ready
+```bash
+kubectl get pods -n dev --watch
+```
+
+### Step 5: Access Application
+```bash
+# Get Minikube IP
+minikube ip
+
+# Get NodePort
+kubectl get svc laravel-nginx -n dev
+```
+
+**Access:** http://<MINIKUBE_IP>:30080
+
+### Deploy Monitoring (Optional)
+```bash
+kubectl apply -f k8s/monitoring-deployment.yml
+
+# Access Prometheus
+minikube service prometheus-service -n dev
+
+# Access Grafana (admin/admin)
+minikube service grafana-service -n dev
+```
+
+### Cleanup
+```bash
+kubectl delete namespace dev
+```
+
+---
+
+## 🏗️ Infrastructure Setup (Terraform)
+
+### Prerequisites
+- Terraform 1.7+
+- AWS CLI configured
+- AWS credentials
+
+### Step 1: Initialize Terraform
+```bash
+cd infra
+terraform init
+```
+
+### Step 2: Review Plan
+```bash
+terraform plan
+```
+
+This provisions:
+- VPC with 4 subnets (2 public, 2 private)
+- 4 Security Groups (ALB, ECS, RDS, Redis)
+- RDS MySQL instance
+- ElastiCache Redis cluster
+- ECS Fargate cluster
+- Application Load Balancer
+
+### Step 3: Apply Infrastructure
+```bash
+terraform apply
+```
+
+Type `yes` to confirm.
+
+### Step 4: Get Outputs
+```bash
+terraform output
+```
+
+You'll see:
+- ALB URL
+- RDS endpoint
+- Redis endpoint
+- VPC ID
+
+### Access Deployed Application
+```bash
+# Get ALB DNS
+terraform output alb_url
+```
+
+---
+
+## 💥 Infrastructure Teardown
+
+### Terraform Destroy
+```bash
+cd infra
+terraform destroy
+```
+
+Type `yes` to confirm.
+
+This will:
+- ✅ Destroy all AWS resources
+- ✅ Remove ECS cluster and tasks
+- ✅ Delete RDS database
+- ✅ Remove ElastiCache Redis
+- ✅ Delete ALB and target groups
+- ✅ Remove VPC and networking
+
+**⚠️ WARNING:** This action is irreversible!
+
+### Verify Cleanup
+```bash
+# Check remaining resources
+aws ecs list-clusters --region us-east-1
+aws rds describe-db-instances --region us-east-1
+aws elasticache describe-cache-clusters --region us-east-1
+```
+
+---
 - ✅ Eloquent ORM for database interactions
 - ✅ Input validation and error handling
 
@@ -858,5 +1061,6 @@ For questions or issues related to this project:
 **Version**: 1.0.0  
 **Status**: ✅ Active Development
 
- #   C I / C D   P i p e l i n e   R e a d y  
+ #   C I / C D   P i p e l i n e   R e a d y 
+ 
  
