@@ -3,6 +3,12 @@
 .env
 .env.backup
 .env.production
+
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfvars
 .phpactor.json
 .phpunit.result.cache
 /.fleet
