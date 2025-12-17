@@ -1,0 +1,42 @@
+variable "namespace" {
+  description = "Kubernetes namespace for Laravel Notes application"
+  type        = string
+  default     = "laravel-notes"
+}
+
+variable "app_replicas" {
+  description = "Number of replicas for Laravel application"
+  type        = number
+  default     = 2
+}
+
+variable "db_name" {
+  description = "Database name"
+  type        = string
+  default     = "notes_db"
+}
+
+variable "db_user" {
+  description = "Database username"
+  type        = string
+  default     = "laravel_user"
+}
+
+variable "db_password" {
+  description = "Database password"
+  type        = string
+  sensitive   = true
+  default     = "password"
+}
+
+variable "app_key" {
+  description = "Laravel application key"
+  type        = string
+  sensitive   = true
+}
+
+variable "docker_image" {
+  description = "Docker image for Laravel application"
+  type        = string
+  default     = "your-dockerhub-username/laravel-notes:latest"
+}

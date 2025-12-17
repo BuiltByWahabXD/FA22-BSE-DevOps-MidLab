@@ -1,0 +1,22 @@
+# AWS Configuration
+aws_region = "us-east-1"
+
+# Project Configuration
+project_name = "laravel-notes"
+environment  = "production"
+
+# Application Configuration
+app_replicas = 2
+docker_image = "your-dockerhub-username/laravel-notes:latest"
+
+# Generate APP_KEY using: php artisan key:generate --show
+app_key = "base64:your-generated-app-key-here"
+
+# Database Configuration
+db_name           = "notes_db"
+db_user           = "laravel_user"
+db_password       = "your-secure-database-password"
+db_instance_class = "db.t3.micro"
+
+# Redis Configuration
+redis_node_type = "cache.t3.micro"

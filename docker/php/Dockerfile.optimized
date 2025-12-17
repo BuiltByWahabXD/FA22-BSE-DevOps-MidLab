@@ -1,0 +1,77 @@
+# Multi-stage build for production
+FROM php:8.2-fpm AS base
+
+WORKDIR /var/www
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    zip \
+    unzip \
+    libzip-dev \
+    nginx \
+    supervisor \
+ && rm -rf /var/lib/apt/lists/*
+
+# Install PHP extensions
+RUN pecl install redis \
+    && docker-php-ext-enable redis \
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
+
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# ===== BUILD STAGE =====
+FROM base AS builder
+
+WORKDIR /var/www
+
+# Copy only dependency files first (for caching)
+COPY composer.json composer.lock ./
+
+# Install dependencies
+RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
+
+# Copy application code (excluding vendor, node_modules, etc via .dockerignore)
+COPY . .
+
+# Generate optimized autoloader
+RUN composer dump-autoload --optimize --no-dev
+
+# ===== PRODUCTION STAGE =====
+FROM base AS production
+
+WORKDIR /var/www
+
+# Copy application from builder
+COPY --from=builder --chown=www-data:www-data /var/www /var/www
+
+# Configure Nginx
+RUN rm -f /etc/nginx/sites-enabled/default \
+ && mkdir -p /var/log/nginx
+COPY docker/nginx/default.conf /etc/nginx/sites-available/laravel.conf
+RUN sed -i 's|fastcgi_pass app:9000|fastcgi_pass 127.0.0.1:9000|' /etc/nginx/sites-available/laravel.conf \
+ && ln -s /etc/nginx/sites-available/laravel.conf /etc/nginx/sites-enabled/
+
+# Configure PHP-FPM
+RUN sed -i 's|listen = .*|listen = 127.0.0.1:9000|' /usr/local/etc/php-fpm.d/www.conf
+
+# Configure Supervisor
+COPY docker/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Set permissions (only bootstrap/cache and storage, not entire /var/www)
+RUN mkdir -p storage/framework/{cache,sessions,views} \
+    && chmod -R 775 storage bootstrap/cache
+
+# Laravel optimizations
+RUN php artisan config:cache \
+    && php artisan route:cache \
+    && php artisan view:cache
+
+EXPOSE 80
+
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: laravel-stack
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: laravel-stack
+  template:
+    metadata:
+      labels:
+        app: laravel-stack
+    spec:
+      volumes:
+        - name: app-code
+          emptyDir: {}
+        - name: nginx-config
+          configMap:
+            name: nginx-config
+
+      containers:
+        - name: laravel
+          image: builtbywahab/laravel-notes:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9000
+          envFrom:
+            - configMapRef:
+                name: laravel-config
+            - secretRef:
+                name: laravel-secrets
+          volumeMounts:
+            - name: app-code
+              mountPath: /var/www
+
+        - name: nginx
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: app-code
+              mountPath: /var/www
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d

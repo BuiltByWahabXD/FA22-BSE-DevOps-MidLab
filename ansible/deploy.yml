@@ -1,0 +1,114 @@
+---
+- name: Deploy Laravel Notes Application to Kubernetes
+  hosts: localhost
+  gather_facts: yes
+  
+  vars:
+    namespace: dev
+    k8s_manifests_path: ../k8s
+    app_name: laravel-notes
+    
+  tasks:
+    - name: Check if kubectl is installed
+      command: kubectl version --client
+      register: kubectl_check
+      changed_when: false
+      
+    - name: Display kubectl version
+      debug:
+        msg: "kubectl is installed: {{ kubectl_check.stdout_lines[0] }}"
+        
+    - name: Check if Minikube is running
+      command: kubectl cluster-info
+      register: cluster_check
+      changed_when: false
+      ignore_errors: yes
+      
+    - name: Fail if cluster is not accessible
+      fail:
+        msg: "Kubernetes cluster is not accessible. Please start Minikube."
+      when: cluster_check.rc != 0
+      
+    - name: Create namespace
+      command: kubectl apply -f {{ k8s_manifests_path }}/namespace.yml
+      register: namespace_result
+      changed_when: "'created' in namespace_result.stdout"
+      
+    - name: Apply ConfigMap
+      command: kubectl apply -f {{ k8s_manifests_path }}/configmap.yml
+      register: configmap_result
+      changed_when: "'created' in configmap_result.stdout or 'configured' in configmap_result.stdout"
+      
+    - name: Apply Secrets
+      command: kubectl apply -f {{ k8s_manifests_path }}/secret.yml
+      register: secret_result
+      changed_when: "'created' in secret_result.stdout or 'configured' in secret_result.stdout"
+      
+    - name: Deploy MySQL
+      command: kubectl apply -f {{ k8s_manifests_path }}/mysql/ -R
+      register: mysql_result
+      changed_when: "'created' in mysql_result.stdout or 'configured' in mysql_result.stdout"
+      
+    - name: Wait for MySQL to be ready
+      command: kubectl wait --for=condition=ready pod -l app=mysql -n {{ namespace }} --timeout=300s
+      register: mysql_wait
+      changed_when: false
+      
+    - name: Deploy Redis
+      command: kubectl apply -f {{ k8s_manifests_path }}/redis/ -R
+      register: redis_result
+      changed_when: "'created' in redis_result.stdout or 'configured' in redis_result.stdout"
+      
+    - name: Wait for Redis to be ready
+      command: kubectl wait --for=condition=ready pod -l app=redis -n {{ namespace }} --timeout=300s
+      register: redis_wait
+      changed_when: false
+      
+    - name: Deploy Laravel Application
+      command: kubectl apply -f {{ k8s_manifests_path }}/app/ -R
+      register: app_result
+      changed_when: "'created' in app_result.stdout or 'configured' in app_result.stdout"
+      
+    - name: Deploy Monitoring Stack
+      command: kubectl apply -f {{ k8s_manifests_path }}/monitoring-deployment.yml
+      register: monitoring_result
+      changed_when: "'created' in monitoring_result.stdout or 'configured' in monitoring_result.stdout"
+      
+    - name: Wait for Laravel App to be ready
+      command: kubectl wait --for=condition=ready pod -l app=laravel -n {{ namespace }} --timeout=300s
+      register: app_wait
+      changed_when: false
+      ignore_errors: yes
+      
+    - name: Get all pods status
+      command: kubectl get pods -n {{ namespace }}
+      register: pods_status
+      changed_when: false
+      
+    - name: Display pods status
+      debug:
+        msg: "{{ pods_status.stdout_lines }}"
+        
+    - name: Get all services
+      command: kubectl get services -n {{ namespace }}
+      register: services_status
+      changed_when: false
+      
+    - name: Display services
+      debug:
+        msg: "{{ services_status.stdout_lines }}"
+        
+    - name: Get Minikube IP
+      command: minikube ip
+      register: minikube_ip
+      changed_when: false
+      ignore_errors: yes
+      
+    - name: Display access information
+      debug:
+        msg:
+          - "Deployment completed successfully!"
+          - "Access the application at: http://{{ minikube_ip.stdout }}:30080"
+          - "Access Grafana at: http://{{ minikube_ip.stdout }}:30030"
+          - "Access Prometheus at: http://{{ minikube_ip.stdout }}:30090"
+      when: minikube_ip.rc == 0

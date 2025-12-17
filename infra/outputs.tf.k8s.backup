@@ -1,0 +1,19 @@
+output "namespace" {
+  description = "Namespace where resources are deployed"
+  value       = kubernetes_namespace.laravel_notes.metadata[0].name
+}
+
+output "laravel_service_url" {
+  description = "Laravel application service URL"
+  value       = "http://localhost:30080"
+}
+
+output "grafana_url" {
+  description = "Grafana dashboard URL"
+  value       = "http://localhost:30030"
+}
+
+output "prometheus_url" {
+  description = "Prometheus metrics URL"
+  value       = "http://localhost:30090"
+}

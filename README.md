@@ -1,11 +1,50 @@
 # Laravel Notes Application
-### DevOps Mid-Lab Exam Project - Group 17
+### DevOps Project - Group 17
 
 ![Laravel](https://img.shields.io/badge/Laravel-11.x-red?style=flat-square&logo=laravel)
 ![PHP](https://img.shields.io/badge/PHP-8.2+-blue?style=flat-square&logo=php)
 ![MySQL](https://img.shields.io/badge/MySQL-8.0-orange?style=flat-square&logo=mysql)
+![Redis](https://img.shields.io/badge/Redis-7-red?style=flat-square&logo=redis)
 ![Docker](https://img.shields.io/badge/Docker-Enabled-blue?style=flat-square&logo=docker)
+![Kubernetes](https://img.shields.io/badge/Kubernetes-Ready-blue?style=flat-square&logo=kubernetes)
+![Terraform](https://img.shields.io/badge/Terraform-IaC-purple?style=flat-square&logo=terraform)
+![Ansible](https://img.shields.io/badge/Ansible-Automation-red?style=flat-square&logo=ansible)
 ![CI/CD](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-green?style=flat-square&logo=githubactions)
+![Monitoring](https://img.shields.io/badge/Monitoring-Prometheus%20%26%20Grafana-orange?style=flat-square)
+
+---
+
+## 🎯 Quick Start - Final Lab
+
+> **📢 IMPORTANT**: This is the **FINAL LAB** extension of the Mid-Lab project.
+> 
+> **For complete Final Lab documentation, see: [FINAL_LAB_README.md](FINAL_LAB_README.md)**
+
+### Final Lab Components
+
+✅ **Redis** - Caching & Queue  
+✅ **Kubernetes** - Orchestration  
+✅ **Terraform** - Infrastructure as Code  
+✅ **Ansible** - Configuration Management  
+✅ **Prometheus & Grafana** - Monitoring  
+
+### Quick Deploy Options
+
+```bash
+# Docker Compose (Fastest)
+docker-compose up -d
+
+# Kubernetes
+./deploy-k8s.sh  # or deploy-k8s.ps1 on Windows
+
+# Terraform
+cd terraform && terraform init && terraform apply
+
+# Ansible
+cd ansible && ansible-playbook deploy.yml
+```
+
+**See [FINAL_LAB_README.md](FINAL_LAB_README.md) for complete instructions.**
 
 ---
 
@@ -44,10 +83,10 @@ The application provides a simple yet robust CRUD (Create, Read, Update, Delete)
 
 - **Institution**: COMSATS University
 - **Course**: DevOps
-- **Assessment**: Mid-Lab Exam
+- **Project**: Mid-Lab + Final Lab Extension
 - **Group**: Group 17
 - **Semester**: 7
-- **Date**: October 30, 2025
+- **Date**: October 2025 - December 2025
 
 ---
 
@@ -57,11 +96,12 @@ The application provides a simple yet robust CRUD (Create, Read, Update, Delete)
 - ✅ Create, Read, Update, and Delete notes
 - ✅ RESTful API architecture
 - ✅ Database-backed persistence with MySQL
+- ✅ Redis caching and queue management
 - ✅ Clean and intuitive user interface
 - ✅ Eloquent ORM for database interactions
 - ✅ Input validation and error handling
 
-### DevOps Features
+### DevOps Features (Mid-Lab)
 - 🐳 **Fully Dockerized**: Multi-container setup with Docker Compose
 - 🔄 **CI/CD Pipeline**: Automated testing and deployment
 - 🧪 **Automated Testing**: Comprehensive PHPUnit test suite
@@ -69,6 +109,16 @@ The application provides a simple yet robust CRUD (Create, Read, Update, Delete)
 - 📦 **Docker Hub Integration**: Automated image publishing
 - 🎨 **Code Formatting**: Laravel Pint for consistent code style
 - 📊 **Quality Assurance**: Automated testing on every commit
+
+### DevOps Features (Final Lab - NEW)
+- 📦 **Redis Integration**: Caching and message queue
+- ☸️ **Kubernetes**: Full orchestration with Minikube
+- 🏗️ **Terraform**: Infrastructure as Code for K8s
+- 🤖 **Ansible**: Automated deployment and configuration
+- 📊 **Prometheus**: Metrics collection and monitoring
+- 📈 **Grafana**: Visualization and dashboards
+- 🔐 **ConfigMaps & Secrets**: Kubernetes-native configuration
+- 🚀 **Enhanced CI/CD**: Extended pipeline with Redis support
 
 ---
 
@@ -79,8 +129,9 @@ The application provides a simple yet robust CRUD (Create, Read, Update, Delete)
 - **PHP 8.2+** - Server-side programming language
 - **Composer** - Dependency management for PHP
 
-### Database
+### Database & Cache
 - **MySQL 8.0** - Relational database management system
+- **Redis 7** - In-memory data store (cache & queue)
 - **Eloquent ORM** - Laravel's database abstraction layer
 
 ### Frontend
@@ -89,11 +140,19 @@ The application provides a simple yet robust CRUD (Create, Read, Update, Delete)
 - **CSS** - Styling
 
 ### DevOps & Infrastructure
+### DevOps & Infrastructure
 - **Docker** - Containerization platform
 - **Docker Compose** - Multi-container orchestration
+- **Kubernetes** - Container orchestration (Minikube)
+- **Terraform** - Infrastructure as Code
+- **Ansible** - Configuration management & automation
 - **Nginx (Alpine)** - Web server and reverse proxy
 - **GitHub Actions** - CI/CD automation
 - **Docker Hub** - Container image registry
+
+### Monitoring & Observability
+- **Prometheus** - Metrics collection and monitoring
+- **Grafana** - Data visualization and dashboards
 
 ### Testing & Quality
 - **PHPUnit** - PHP testing framework
@@ -104,25 +163,27 @@ The application provides a simple yet robust CRUD (Create, Read, Update, Delete)
 
 ## 📦 Prerequisites
 
-Before you begin, ensure you have the following installed on your system:
+### For Final Lab (Complete Setup)
 
-### Required Software
+- **Docker Desktop** (v20.10+)
+- **Docker Compose** (v2.0+)
+- **Minikube** (for Kubernetes)
+- **kubectl** (Kubernetes CLI)
+- **Terraform** (v1.0+)
+- **Ansible** (v2.9+)
+- **Git**
+
+### For Mid-Lab (Basic Docker Setup)
+
 - **Docker Desktop** (v20.10 or higher)
-  - [Download for Windows](https://docs.docker.com/desktop/install/windows-install/)
-  - [Download for Mac](https://docs.docker.com/desktop/install/mac-install/)
-  - [Download for Linux](https://docs.docker.com/desktop/install/linux-install/)
-  
 - **Docker Compose** (v2.0 or higher)
-  - Usually included with Docker Desktop
-  - For Linux: `sudo apt-get install docker-compose-plugin`
+- **Git**
 
-- **Git** (for cloning the repository)
-  - [Download Git](https://git-scm.com/downloads)
-
-### Optional (for local development without Docker)
-- PHP 8.2 or higher
+### Optional (for local development)
+- PHP 8.2+
 - Composer 2.x
 - MySQL 8.0
+- Redis 7
 - Node.js 18+ & npm
 
 ### System Requirements

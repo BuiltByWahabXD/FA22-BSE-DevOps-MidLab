@@ -1,0 +1,55 @@
+---
+- name: Undeploy Laravel Notes Application from Kubernetes
+  hosts: localhost
+  gather_facts: no
+  
+  vars:
+    namespace: laravel-notes
+    k8s_manifests_path: ../k8s
+    
+  tasks:
+    - name: Delete monitoring stack
+      command: kubectl delete -f {{ k8s_manifests_path }}/monitoring-deployment.yml
+      register: monitoring_delete
+      changed_when: "'deleted' in monitoring_delete.stdout"
+      ignore_errors: yes
+      
+    - name: Delete Laravel application
+      command: kubectl delete -f {{ k8s_manifests_path }}/app-deployment.yml
+      register: app_delete
+      changed_when: "'deleted' in app_delete.stdout"
+      ignore_errors: yes
+      
+    - name: Delete Redis
+      command: kubectl delete -f {{ k8s_manifests_path }}/redis-deployment.yml
+      register: redis_delete
+      changed_when: "'deleted' in redis_delete.stdout"
+      ignore_errors: yes
+      
+    - name: Delete MySQL
+      command: kubectl delete -f {{ k8s_manifests_path }}/mysql-deployment.yml
+      register: mysql_delete
+      changed_when: "'deleted' in mysql_delete.stdout"
+      ignore_errors: yes
+      
+    - name: Delete secrets
+      command: kubectl delete -f {{ k8s_manifests_path }}/secret.yml
+      register: secret_delete
+      changed_when: "'deleted' in secret_delete.stdout"
+      ignore_errors: yes
+      
+    - name: Delete configmap
+      command: kubectl delete -f {{ k8s_manifests_path }}/configmap.yml
+      register: configmap_delete
+      changed_when: "'deleted' in configmap_delete.stdout"
+      ignore_errors: yes
+      
+    - name: Delete namespace
+      command: kubectl delete -f {{ k8s_manifests_path }}/namespace.yml
+      register: namespace_delete
+      changed_when: "'deleted' in namespace_delete.stdout"
+      ignore_errors: yes
+      
+    - name: Display cleanup status
+      debug:
+        msg: "Cleanup completed. All resources removed from namespace {{ namespace }}."

@@ -23,7 +23,33 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 
-# Ignore Docker files (will be committed later)
-docker-compose.yml
-/docker/
-PROJECT_STRUCTURE.md
+# Terraform
+terraform/.terraform/
+terraform/.terraform.lock.hcl
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+terraform/terraform.tfvars
+terraform/.terraform.tfstate.lock.info
+
+# Kubernetes - don't ignore k8s directory, but sensitive files only
+# (Keep manifests in git for exam demonstration)
+
+# Ansible
+ansible/*.retry
+
+# IDE
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Sensitive
+secrets.yml
+*.pem
+*.key
+!public/*.key

@@ -1,0 +1,156 @@
+resource "kubernetes_deployment" "laravel_app" {
+  metadata {
+    name      = "laravel-app"
+    namespace = kubernetes_namespace.laravel_notes.metadata[0].name
+  }
+
+  spec {
+    replicas = var.app_replicas
+
+    selector {
+      match_labels = {
+        app = "laravel"
+      }
+    }
+
+    template {
+      metadata {
+        labels = {
+          app = "laravel"
+        }
+      }
+
+      spec {
+        container {
+          name  = "laravel"
+          image = var.docker_image
+
+          port {
+            container_port = 9000
+          }
+
+          env_from {
+            config_map_ref {
+              name = kubernetes_config_map.laravel_config.metadata[0].name
+            }
+          }
+
+          env {
+            name = "APP_KEY"
+            value_from {
+              secret_key_ref {
+                name = kubernetes_secret.laravel_secrets.metadata[0].name
+                key  = "APP_KEY"
+              }
+            }
+          }
+
+          env {
+            name = "DB_USERNAME"
+            value_from {
+              secret_key_ref {
+                name = kubernetes_secret.laravel_secrets.metadata[0].name
+                key  = "DB_USERNAME"
+              }
+            }
+          }
+
+          env {
+            name = "DB_PASSWORD"
+            value_from {
+              secret_key_ref {
+                name = kubernetes_secret.laravel_secrets.metadata[0].name
+                key  = "DB_PASSWORD"
+              }
+            }
+          }
+
+          resources {
+            limits = {
+              memory = "512Mi"
+              cpu    = "500m"
+            }
+            requests = {
+              memory = "256Mi"
+              cpu    = "250m"
+            }
+          }
+        }
+      }
+    }
+  }
+
+  depends_on = [
+    kubernetes_deployment.mysql,
+    kubernetes_deployment.redis
+  ]
+}
+
+resource "kubernetes_deployment" "nginx" {
+  metadata {
+    name      = "nginx"
+    namespace = kubernetes_namespace.laravel_notes.metadata[0].name
+  }
+
+  spec {
+    replicas = var.app_replicas
+
+    selector {
+      match_labels = {
+        app = "nginx"
+      }
+    }
+
+    template {
+      metadata {
+        labels = {
+          app = "nginx"
+        }
+      }
+
+      spec {
+        container {
+          name  = "nginx"
+          image = "nginx:alpine"
+
+          port {
+            container_port = 80
+          }
+
+          resources {
+            limits = {
+              memory = "128Mi"
+              cpu    = "200m"
+            }
+            requests = {
+              memory = "64Mi"
+              cpu    = "100m"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+resource "kubernetes_service" "laravel" {
+  metadata {
+    name      = "laravel-service"
+    namespace = kubernetes_namespace.laravel_notes.metadata[0].name
+  }
+
+  spec {
+    selector = {
+      app = "nginx"
+    }
+
+    port {
+      protocol    = "TCP"
+      port        = 80
+      target_port = 80
+      node_port   = 30080
+    }
+
+    type = "NodePort"
+  }
+}

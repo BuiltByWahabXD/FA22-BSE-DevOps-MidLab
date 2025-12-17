@@ -1,0 +1,86 @@
+resource "kubernetes_persistent_volume_claim" "redis_pvc" {
+  metadata {
+    name      = "redis-pvc"
+    namespace = kubernetes_namespace.laravel_notes.metadata[0].name
+  }
+
+  spec {
+    access_modes = ["ReadWriteOnce"]
+    resources {
+      requests = {
+        storage = "500Mi"
+      }
+    }
+  }
+}
+
+resource "kubernetes_deployment" "redis" {
+  metadata {
+    name      = "redis"
+    namespace = kubernetes_namespace.laravel_notes.metadata[0].name
+  }
+
+  spec {
+    replicas = 1
+
+    selector {
+      match_labels = {
+        app = "redis"
+      }
+    }
+
+    template {
+      metadata {
+        labels = {
+          app = "redis"
+        }
+      }
+
+      spec {
+        container {
+          name  = "redis"
+          image = "redis:7-alpine"
+
+          port {
+            container_port = 6379
+          }
+
+          command = ["redis-server", "--appendonly", "yes"]
+
+          volume_mount {
+            name       = "redis-storage"
+            mount_path = "/data"
+          }
+        }
+
+        volume {
+          name = "redis-storage"
+          persistent_volume_claim {
+            claim_name = kubernetes_persistent_volume_claim.redis_pvc.metadata[0].name
+          }
+        }
+      }
+    }
+  }
+}
+
+resource "kubernetes_service" "redis" {
+  metadata {
+    name      = "redis-service"
+    namespace = kubernetes_namespace.laravel_notes.metadata[0].name
+  }
+
+  spec {
+    selector = {
+      app = "redis"
+    }
+
+    port {
+      protocol    = "TCP"
+      port        = 6379
+      target_port = 6379
+    }
+
+    type = "ClusterIP"
+  }
+}
