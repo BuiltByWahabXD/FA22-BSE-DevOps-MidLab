@@ -1,4 +1,4 @@
-# Laravel Notes Application - DevOps Final Lab
+﻿# Laravel Notes Application - DevOps Final Lab
 ### Complete CI/CD Pipeline with Infrastructure as Code
 
 ![Laravel](https://img.shields.io/badge/Laravel-11.x-red?style=flat-square&logo=laravel)
@@ -15,7 +15,7 @@
 
 ---
 
-## 📋 Table of Contents
+## ðŸ“‹ Table of Contents
 
 - [Quick Start](#-quick-start)
 - [How to Run Locally](#-how-to-run-locally)
@@ -30,19 +30,19 @@
 
 ---
 
-## 🚀 Quick Start
+## ðŸš€ Quick Start
 
 This project demonstrates a complete DevOps pipeline with:
-- ✅ Automated CI/CD (GitHub Actions)
-- ✅ Infrastructure as Code (Terraform)
-- ✅ Container Orchestration (Kubernetes)
-- ✅ Configuration Management (Ansible)
-- ✅ Monitoring & Observability (Prometheus & Grafana)
-- ✅ Cloud Deployment (AWS ECS)
+- âœ… Automated CI/CD (GitHub Actions)
+- âœ… Infrastructure as Code (Terraform)
+- âœ… Container Orchestration (Kubernetes)
+- âœ… Configuration Management (Ansible)
+- âœ… Monitoring & Observability (Prometheus & Grafana)
+- âœ… Cloud Deployment (AWS ECS)
 
 ---
 
-## 🖥️ How to Run Locally
+## ðŸ–¥ï¸ How to Run Locally
 
 ### Prerequisites
 - PHP 8.2+
@@ -113,7 +113,7 @@ php artisan serve
 
 ---
 
-## 🐳 Run via Docker Compose
+## ðŸ³ Run via Docker Compose
 
 ### Prerequisites
 - Docker Desktop
@@ -153,7 +153,7 @@ docker-compose logs -f app
 
 ---
 
-## ☸️ Run via Kubernetes
+## â˜¸ï¸ Run via Kubernetes
 
 ### Prerequisites
 - Minikube or local Kubernetes cluster
@@ -220,7 +220,7 @@ kubectl delete namespace dev
 
 ---
 
-## 🏗️ Infrastructure Setup (Terraform)
+## ðŸ—ï¸ Infrastructure Setup (Terraform)
 
 ### Prerequisites
 - Terraform 1.7+
@@ -272,7 +272,7 @@ terraform output alb_url
 
 ---
 
-## 💥 Infrastructure Teardown
+## ðŸ’¥ Infrastructure Teardown
 
 ### Terraform Destroy
 ```bash
@@ -283,14 +283,14 @@ terraform destroy
 Type `yes` to confirm.
 
 This will:
-- ✅ Destroy all AWS resources
-- ✅ Remove ECS cluster and tasks
-- ✅ Delete RDS database
-- ✅ Remove ElastiCache Redis
-- ✅ Delete ALB and target groups
-- ✅ Remove VPC and networking
+- âœ… Destroy all AWS resources
+- âœ… Remove ECS cluster and tasks
+- âœ… Delete RDS database
+- âœ… Remove ElastiCache Redis
+- âœ… Delete ALB and target groups
+- âœ… Remove VPC and networking
 
-**⚠️ WARNING:** This action is irreversible!
+**âš ï¸ WARNING:** This action is irreversible!
 
 ### Verify Cleanup
 ```bash
@@ -301,31 +301,31 @@ aws elasticache describe-cache-clusters --region us-east-1
 ```
 
 ---
-- ✅ Eloquent ORM for database interactions
-- ✅ Input validation and error handling
 
-### DevOps Features (Mid-Lab)
-- 🐳 **Fully Dockerized**: Multi-container setup with Docker Compose
-- 🔄 **CI/CD Pipeline**: Automated testing and deployment
-- 🧪 **Automated Testing**: Comprehensive PHPUnit test suite
-- 🔒 **Secret Management**: Secure handling of credentials via GitHub Secrets
-- 📦 **Docker Hub Integration**: Automated image publishing
-- 🎨 **Code Formatting**: Laravel Pint for consistent code style
-- 📊 **Quality Assurance**: Automated testing on every commit
+## ðŸŽ¯ Features
 
-### DevOps Features (Final Lab - NEW)
-- 📦 **Redis Integration**: Caching and message queue
-- ☸️ **Kubernetes**: Full orchestration with Minikube
-- 🏗️ **Terraform**: Infrastructure as Code for K8s
-- 🤖 **Ansible**: Automated deployment and configuration
-- 📊 **Prometheus**: Metrics collection and monitoring
-- 📈 **Grafana**: Visualization and dashboards
-- 🔐 **ConfigMaps & Secrets**: Kubernetes-native configuration
-- 🚀 **Enhanced CI/CD**: Extended pipeline with Redis support
+### Application Features
+- âœ… Full CRUD operations for notes
+- âœ… Eloquent ORM for database interactions
+- âœ… Input validation and error handling
+- âœ… RESTful API design
+- âœ… Responsive UI with Blade templates
+
+### DevOps Features
+- ðŸ³ **Docker & Docker Compose**: Multi-container setup
+- â˜¸ï¸ **Kubernetes**: Full orchestration with Minikube
+- ðŸ—ï¸ **Terraform**: Infrastructure as Code for AWS ECS
+- ðŸ¤– **Ansible**: Automated deployment and configuration
+- ðŸ”„ **CI/CD Pipeline**: 6-stage automated workflow
+- ðŸ“Š **Prometheus**: Metrics collection and monitoring
+- ðŸ“ˆ **Grafana**: Visualization and dashboards
+- ðŸ”’ **Secret Management**: GitHub Secrets, K8s Secrets
+- ðŸ§ª **Automated Testing**: Comprehensive PHPUnit test suite
+- ðŸŽ¨ **Code Formatting**: Laravel Pint for consistent style
 
 ---
 
-## 🛠 Tech Stack
+## ðŸ› ï¸ Tech Stack
 
 ### Backend
 - **Laravel 11.x** - Modern PHP framework
@@ -343,7 +343,6 @@ aws elasticache describe-cache-clusters --region us-east-1
 - **CSS** - Styling
 
 ### DevOps & Infrastructure
-### DevOps & Infrastructure
 - **Docker** - Containerization platform
 - **Docker Compose** - Multi-container orchestration
 - **Kubernetes** - Container orchestration (Minikube)
@@ -352,6 +351,13 @@ aws elasticache describe-cache-clusters --region us-east-1
 - **Nginx (Alpine)** - Web server and reverse proxy
 - **GitHub Actions** - CI/CD automation
 - **Docker Hub** - Container image registry
+
+### Cloud Infrastructure
+- **AWS ECS Fargate** - Serverless container orchestration
+- **AWS RDS MySQL** - Managed database service
+- **AWS ElastiCache Redis** - Managed caching service
+- **AWS VPC** - Network isolation
+- **Application Load Balancer** - Traffic distribution
 
 ### Monitoring & Observability
 - **Prometheus** - Metrics collection and monitoring
@@ -364,186 +370,7 @@ aws elasticache describe-cache-clusters --region us-east-1
 
 ---
 
-## 📦 Prerequisites
-
-### For Final Lab (Complete Setup)
-
-- **Docker Desktop** (v20.10+)
-- **Docker Compose** (v2.0+)
-- **Minikube** (for Kubernetes)
-- **kubectl** (Kubernetes CLI)
-- **Terraform** (v1.0+)
-- **Ansible** (v2.9+)
-- **Git**
-
-### For Mid-Lab (Basic Docker Setup)
-
-- **Docker Desktop** (v20.10 or higher)
-- **Docker Compose** (v2.0 or higher)
-- **Git**
-
-### Optional (for local development)
-- PHP 8.2+
-- Composer 2.x
-- MySQL 8.0
-- Redis 7
-- Node.js 18+ & npm
-
-### System Requirements
-- **OS**: Windows 10/11, macOS, or Linux
-- **RAM**: Minimum 4GB (8GB recommended)
-- **Disk Space**: At least 2GB free space
-
----
-
-## 🚀 Installation
-
-Follow these steps to get the Laravel Notes Application running on your local machine:
-
-### Step 1: Clone the Repository
-
-```bash
-# Clone the repository
-git clone https://github.com/BuiltByWahabXD/FA22-BSE-DevOps-MidLab.git
-
-# Navigate to the project directory
-cd FA22-BSE-DevOps-MidLab
-```
-
-### Step 2: Create Environment Configuration
-
-```bash
-# Copy the example environment file
-cp .env.example .env
-```
-
-### Step 3: Configure Environment Variables
-
-Open the `.env` file and update the following database settings to match the Docker Compose configuration:
-
-```env
-# Application Settings
-APP_NAME="Laravel Notes"
-APP_ENV=local
-APP_DEBUG=true
-APP_URL=http://localhost:8080
-
-# Database Configuration (must match docker-compose.yml)
-DB_CONNECTION=mysql
-DB_HOST=mysql
-DB_PORT=3306
-DB_DATABASE=notes_db
-DB_USERNAME=laravel_user
-DB_PASSWORD=password
-```
-
-> **Note**: The `DB_HOST` should be `mysql` (the service name from docker-compose.yml), not `localhost`.
-
-### Step 4: Build and Start Docker Containers
-
-```bash
-# Build and start all containers in detached mode
-docker-compose up -d --build
-```
-
-This command will:
-- Build the PHP application container
-- Start the MySQL database container
-- Start the Nginx web server container
-- Create the necessary Docker networks and volumes
-
-### Step 5: Install PHP Dependencies
-
-```bash
-# Install Composer dependencies inside the container
-docker-compose exec app composer install
-```
-
-### Step 6: Generate Application Key
-
-```bash
-# Generate a unique application encryption key
-docker-compose exec app php artisan key:generate
-```
-
-### Step 7: Run Database Migrations
-
-```bash
-# Create database tables
-docker-compose exec app php artisan migrate
-```
-
-### Step 8: (Optional) Seed the Database
-
-```bash
-# Populate the database with sample data
-docker-compose exec app php artisan db:seed
-```
-
----
-
-## 🎮 Running the Application
-
-### Access the Application
-
-Once all containers are running, you can access the application at:
-
-🌐 **http://localhost:8080**
-
-### Verify Containers Are Running
-
-```bash
-# Check container status
-docker-compose ps
-
-# Expected output:
-# NAME               STATUS          PORTS
-# laravel-app        Up              9000/tcp
-# laravel-mysql      Up              0.0.0.0:3306->3306/tcp
-# laravel-nginx      Up              0.0.0.0:8080->80/tcp
-```
-
-### View Container Logs
-
-```bash
-# View all logs
-docker-compose logs
-
-# View specific service logs
-docker-compose logs app
-docker-compose logs mysql
-docker-compose logs nginx
-
-# Follow logs in real-time
-docker-compose logs -f app
-```
-
-### Stop the Application
-
-```bash
-# Stop all containers (preserves data)
-docker-compose stop
-
-# Stop and remove containers (preserves volumes)
-docker-compose down
-
-# Stop, remove containers, and remove volumes (fresh start)
-docker-compose down -v
-```
-
-### Restart the Application
-
-```bash
-# Restart all containers
-docker-compose restart
-
-# Restart a specific service
-docker-compose restart app
-```
-
----
-
-## 🧪 Testing
+## ðŸ§ª Testing
 
 Our application includes a comprehensive test suite to ensure code quality and functionality.
 
@@ -620,7 +447,7 @@ Our feature tests cover the complete CRUD functionality:
 
 ---
 
-## 🎨 Code Quality & Linting
+## ðŸŽ¨ Code Quality & Linting
 
 We use **Laravel Pint** to maintain consistent code style across the project.
 
@@ -644,11 +471,11 @@ docker-compose exec app ./vendor/bin/pint app/Models/Note.php
 
 Laravel Pint follows the PSR-12 coding standard with Laravel-specific conventions:
 
-- ✅ Consistent indentation (4 spaces)
-- ✅ Proper spacing around operators
-- ✅ Consistent brace placement
-- ✅ Proper import ordering
-- ✅ Consistent naming conventions
+- âœ… Consistent indentation (4 spaces)
+- âœ… Proper spacing around operators
+- âœ… Consistent brace placement
+- âœ… Proper import ordering
+- âœ… Consistent naming conventions
 
 ### Pre-Commit Checks
 
@@ -664,7 +491,7 @@ docker-compose exec app ./vendor/bin/pint --test
 
 ---
 
-## 🔄 CI/CD Pipeline
+## ðŸ”„ CI/CD Pipeline
 
 Our project uses **GitHub Actions** for automated continuous integration and deployment.
 
@@ -677,51 +504,168 @@ The CI/CD pipeline is triggered on:
 
 ### Pipeline Stages
 
-1. **📥 Checkout Code**: Clone the repository
-2. **🔧 Setup Environment**: Install PHP, Composer, Node.js
-3. **🗄️ Database Setup**: Start MySQL service container
-4. **🧪 Run Tests**: Execute PHPUnit test suite
-5. **🎨 Code Quality**: Run Laravel Pint linter
-6. **🐳 Build Docker Image**: Create production Docker image
-7. **📤 Push to Docker Hub**: Publish image to registry
+The pipeline consists of 6 automated stages:
+
+| Stage | Duration | Description |
+|-------|----------|-------------|
+| **1. Build & Test** | ~1m | Checkout code, install dependencies, run PHPUnit tests |
+| **2. Security & Linting** | ~16s | Run Laravel Pint, security scans |
+| **3. Docker Build & Push** | ~2m 14s | Build Docker image, push to Docker Hub |
+| **4. Terraform Apply** | ~21s | Provision AWS infrastructure (ECS, RDS, Redis) |
+| **5. Kubectl Apply** | ~5s | Deploy to Kubernetes cluster |
+| **6. Smoke Tests** | ~14s | Post-deployment health checks |
+
+**Total Duration**: ~4 minutes 30 seconds
 
 ### Workflow File Location
 
-The CI/CD configuration is maintained by **Teammate 2** and can be found at:
 ```
-.github/workflows/ci-cd.yml
+.github/workflows/laravel-ci-cd.yml
 ```
 
 ### Docker Hub Integration
 
 Successful builds are automatically pushed to Docker Hub:
 
-- **Registry**: `docker.io/[username]/laravel-notes-app`
+- **Registry**: `builtbywahab/laravel-notes`
 - **Tags**: 
   - `latest` - Most recent successful build
   - `[commit-sha]` - Specific commit version
 
+### GitHub Secrets Required
+
+The following secrets must be configured in GitHub repository settings:
+
+| Secret Name | Purpose |
+|------------|---------|
+| `DOCKER_TOKEN` | Docker Hub authentication token |
+| `AWS_ACCESS_KEY_ID` | AWS authentication for Terraform |
+| `AWS_SECRET_ACCESS_KEY` | AWS secret key for infrastructure |
+
 ### Viewing Pipeline Status
 
-1. Navigate to the **Actions** tab in GitHub
+1. Navigate to the **Actions** tab in GitHub repository
 2. View workflow runs and their status
-3. Click on a specific run to see detailed logs
-
-### GitHub Secrets
-
-The following secrets are configured (by Teammate 2):
-
-- `DOCKER_HUB_USERNAME` - Docker Hub username
-- `DOCKER_HUB_ACCESS_TOKEN` - Docker Hub authentication token
-- `MYSQL_DATABASE` - Test database name
-- `MYSQL_USER` - Database username
-- `MYSQL_PASSWORD` - Database password
-
-> **Note**: Secrets are managed by the CI/CD team member and are not visible in the codebase for security reasons.
+3. Click on a specific run to see detailed logs for each stage
 
 ---
 
-## 🐳 Docker Configuration
+## ðŸ“Š Monitoring
+
+Our application includes comprehensive monitoring using **Prometheus** and **Grafana**.
+
+### Deployed Services
+
+- **Prometheus**: Metrics collection (Port 30090)
+- **Grafana**: Data visualization (Port 30030)
+
+### Accessing Monitoring Dashboards
+
+```bash
+# Access Prometheus
+minikube service prometheus-service -n dev
+
+# Access Grafana (default credentials: admin/admin)
+minikube service grafana-service -n dev
+```
+
+### Metrics Collected
+
+- **Container Metrics**: CPU, Memory, Network usage
+- **Application Metrics**: Request rates, response times
+- **Database Metrics**: Connection pools, query performance
+- **Redis Metrics**: Cache hit rates, memory usage
+
+### Grafana Dashboards
+
+1. **Kubernetes Overview** (Dashboard ID: 315)
+   - Pod status and health
+   - Resource utilization
+   - Network traffic
+
+2. **Custom Laravel Monitoring**
+   - Application-specific metrics
+   - Database queries
+   - Cache performance
+
+### Sample Prometheus Queries
+
+```promql
+# Container CPU usage
+rate(container_cpu_usage_seconds_total[5m])
+
+# Memory usage
+container_memory_usage_bytes
+
+# HTTP request rate
+rate(http_requests_total[5m])
+```
+
+---
+
+## ðŸ“‚ Project Structure
+
+```
+FA22-BSE-DevOps-FinalLab/
+â”œâ”€â”€ .github/
+â”‚   â””â”€â”€ workflows/
+â”‚       â””â”€â”€ laravel-ci-cd.yml      # CI/CD pipeline configuration
+â”œâ”€â”€ ansible/
+â”‚   â”œâ”€â”€ deploy.yml                  # Ansible playbook
+â”‚   â”œâ”€â”€ inventory.ini               # Inventory file
+â”‚   â””â”€â”€ run-deployment.ps1          # Deployment script
+â”œâ”€â”€ app/
+â”‚   â”œâ”€â”€ Http/Controllers/           # Application controllers
+â”‚   â””â”€â”€ Models/                     # Eloquent models
+â”‚       â”œâ”€â”€ Note.php
+â”‚       â””â”€â”€ User.php
+â”œâ”€â”€ config/                          # Laravel configuration files
+â”œâ”€â”€ database/
+â”‚   â”œâ”€â”€ migrations/                  # Database migrations
+â”‚   â””â”€â”€ seeders/                     # Database seeders
+â”œâ”€â”€ docker/
+â”‚   â”œâ”€â”€ nginx/
+â”‚   â”‚   â””â”€â”€ default.conf             # Nginx configuration
+â”‚   â””â”€â”€ php/
+â”‚       â””â”€â”€ Dockerfile               # PHP Docker image
+â”œâ”€â”€ infra/                           # Terraform infrastructure
+â”‚   â”œâ”€â”€ main.tf                      # Main Terraform config
+â”‚   â”œâ”€â”€ vpc.tf                       # VPC configuration
+â”‚   â”œâ”€â”€ ecs.tf                       # ECS cluster
+â”‚   â”œâ”€â”€ rds.tf                       # RDS MySQL
+â”‚   â”œâ”€â”€ redis.tf                     # ElastiCache Redis
+â”‚   â”œâ”€â”€ alb.tf                       # Load balancer
+â”‚   â”œâ”€â”€ security-groups.tf           # Security groups
+â”‚   â”œâ”€â”€ variables.tf                 # Input variables
+â”‚   â””â”€â”€ outputs.tf                   # Output values
+â”œâ”€â”€ k8s/                             # Kubernetes manifests
+â”‚   â”œâ”€â”€ namespace.yml
+â”‚   â”œâ”€â”€ configmap.yml
+â”‚   â”œâ”€â”€ secret.yml
+â”‚   â”œâ”€â”€ mysql/                       # MySQL deployment
+â”‚   â”œâ”€â”€ redis/                       # Redis deployment
+â”‚   â”œâ”€â”€ app/                         # Laravel app deployment
+â”‚   â””â”€â”€ monitoring-deployment.yml    # Prometheus & Grafana
+â”œâ”€â”€ resources/
+â”‚   â”œâ”€â”€ views/                       # Blade templates
+â”‚   â”œâ”€â”€ css/                         # Stylesheets
+â”‚   â””â”€â”€ js/                          # JavaScript files
+â”œâ”€â”€ routes/
+â”‚   â””â”€â”€ web.php                      # Application routes
+â”œâ”€â”€ tests/
+â”‚   â”œâ”€â”€ Feature/
+â”‚   â”‚   â””â”€â”€ NoteTest.php             # Feature tests
+â”‚   â””â”€â”€ Unit/                        # Unit tests
+â”œâ”€â”€ docker-compose.yml               # Docker Compose configuration
+â”œâ”€â”€ phpunit.xml                      # PHPUnit configuration
+â”œâ”€â”€ README.md                        # This file
+â”œâ”€â”€ devops_report.md                 # Technical documentation
+â””â”€â”€ DEPLOYMENT_CHECKLIST.md          # Deployment guide
+```
+
+---
+
+## ðŸ³ Docker Configuration
 
 ### Service Architecture
 
@@ -737,7 +681,7 @@ Our Docker Compose setup includes three services:
 - **Base Image**: nginx:alpine
 - **Configuration**: `docker/nginx/default.conf`
 - **Purpose**: Serves the application and handles HTTP requests
-- **Exposed Port**: 8080 (external) → 80 (internal)
+- **Exposed Port**: 8080 (external) â†’ 80 (internal)
 
 #### 3. Database Service (`mysql`)
 - **Base Image**: mysql:8.0
@@ -789,7 +733,7 @@ All services communicate via the `laravel-network` bridge network:
 
 ---
 
-## 🗄️ Database Management
+## ðŸ—„ï¸ Database Management
 
 ### Accessing the MySQL Database
 
@@ -844,109 +788,77 @@ You can connect to the MySQL database using tools like MySQL Workbench or phpMyA
 
 ---
 
-## 👥 Contributors
+## ðŸ‘¥ Team & Contributions
 
-This project was developed by **Group 17** as a collaborative effort:
+This project was developed as part of the **DevOps Final Lab** at COMSATS University.
 
-### Team Members & Responsibilities
+### Author
+**Abdul Wahab** - Full Stack Developer & DevOps Engineer
 
-| Member | Role | Responsibilities |
-|--------|------|-----------------|
-| **Teammate 1** | Infrastructure Setup | - Docker & Docker Compose configuration<br>- Application containerization<br>- Environment setup<br>- Initial project structure |
-| **Teammate 2** | CI/CD Engineer | - GitHub Actions workflow design<br>- Docker Hub integration<br>- Secret management<br>- Pipeline automation |
-| **Teammate 3** | Testing & Documentation | - PHPUnit configuration<br>- Feature test implementation<br>- Project documentation<br>- DevOps report |
+### Contributions
 
-### Collaboration Tools
+All aspects of this project were implemented including:
+- âœ… Infrastructure as Code (Terraform)
+- âœ… Container Orchestration (Kubernetes)
+- âœ… Configuration Management (Ansible)
+- âœ… CI/CD Pipeline (GitHub Actions)
+- âœ… Monitoring & Observability (Prometheus & Grafana)
+- âœ… Application Development (Laravel)
+- âœ… Testing & Quality Assurance
+- âœ… Documentation
 
-- **Version Control**: Git & GitHub
-- **Project Management**: GitHub Issues & Projects
-- **Communication**: Team meetings and code reviews
-- **Documentation**: Markdown files in repository
+### Repository Information
 
-### Branch Strategy
-
-- `main` - Production-ready code
-- `dev` - Development branch
-- `feature/*` - Individual feature branches
-- `testing/*` - Testing-related branches
-- `docs/*` - Documentation branches
-
-### Contribution Guidelines
-
-1. Create a feature branch from `dev`
-2. Make your changes with clear, descriptive commits
-3. Write or update tests for new features
-4. Run tests and linting before pushing
-5. Create a pull request to `dev` branch
-6. Request code review from team members
-7. Merge after approval and passing CI/CD checks
+- **GitHub**: [FA22-BSE-DevOps-MidLab](https://github.com/BuiltByWahabXD/FA22-BSE-DevOps-MidLab)
+- **Docker Hub**: [builtbywahab/laravel-notes](https://hub.docker.com/r/builtbywahab/laravel-notes)
 
 ---
 
-## 📸 Proof of Work
+## ðŸ“¸ Proof of Work
 
-### Documentation & Evidence
+Comprehensive documentation and evidence of the DevOps implementation can be found in:
 
-Comprehensive proof of our DevOps implementation is documented in:
-
-📄 **[DevOps Report](devops_report.md)** - Complete project documentation
+ðŸ“„ **[DevOps Report](devops_report.md)** - Complete technical documentation
 
 The report includes:
 
-#### Screenshots & Evidence Collected
+### Evidence Collected
 
-1. **CI/CD Pipeline**
-   - ✅ GitHub Actions workflow execution
-   - ✅ All pipeline stages passing
-   - ✅ Test execution logs
-   - ✅ Build and deployment success
+1. **Terraform Infrastructure**
+   - âœ… 32 AWS resources provisioned
+   - âœ… Terraform outputs and state
+   - âœ… AWS Console screenshots (VPC, ECS, RDS, Redis, ALB)
 
-2. **Docker Hub**
-   - ✅ Published Docker images
-   - ✅ Multiple tagged versions
-   - ✅ Automated push history
-   - ✅ Image metadata
+2. **Kubernetes Deployment**
+   - âœ… Minikube cluster setup
+   - âœ… All pods running (MySQL, Redis, Laravel)
+   - âœ… Services and networking configuration
+   - âœ… ConfigMaps and Secrets
 
-3. **Running Containers**
-   - ✅ `docker ps` output showing all services
-   - ✅ Container logs
-   - ✅ Health check status
-   - ✅ Network configuration
+3. **Ansible Automation**
+   - âœ… Playbook execution (PLAY RECAP: 0 failed)
+   - âœ… Automated deployment proof
+   - âœ… Inventory configuration
 
-4. **Test Results**
-   - ✅ PHPUnit test execution (all passing)
-   - ✅ Test coverage report
-   - ✅ CI/CD test logs
-   - ✅ Local test execution
+4. **CI/CD Pipeline**
+   - âœ… GitHub Actions workflow (all 6 stages passing)
+   - âœ… Build and test logs
+   - âœ… Docker Hub integration
+   - âœ… Automated deployments
 
-5. **Git History**
-   - ✅ `git shortlog` showing contributions
-   - ✅ Commit history by team member
-   - ✅ Branch structure visualization
-   - ✅ Pull request reviews
+5. **Monitoring Setup**
+   - âœ… Prometheus metrics collection
+   - âœ… Grafana dashboards
+   - âœ… Custom queries and alerts
 
-6. **Application Screenshots**
-   - ✅ Laravel welcome page at localhost:8080
-   - ✅ Database connection verification
-   - ✅ CRUD operations demonstration
-   - ✅ No errors in console
-
-### Viewing Proof Materials
-
-```bash
-# Generate git contribution summary
-git shortlog -s -n --all
-
-# View detailed commit history
-git log --graph --oneline --all --decorate
-
-# Show contributions by specific author
-git log --author="YourName" --oneline --shortstat
-```
+6. **Testing Results**
+   - âœ… PHPUnit test execution (all passing)
+   - âœ… Code coverage reports
+   - âœ… CI/CD test logs
 
 ---
 
-## 🔧 Troubleshooting
+## ðŸ”§ Troubleshooting
 
 ### Common Issues & Solutions
 
@@ -999,7 +911,7 @@ docker-compose exec app php artisan migrate --env=testing
 
 ---
 
-## 📚 Additional Resources
+## ðŸ“š Additional Resources
 
 ### Laravel Documentation
 - [Official Laravel Documentation](https://laravel.com/docs)
@@ -1022,7 +934,7 @@ docker-compose exec app php artisan migrate --env=testing
 
 ---
 
-## 📄 License
+## ðŸ“„ License
 
 This project is developed for educational purposes as part of the DevOps Mid-Lab Exam at COMSATS University.
 
@@ -1030,38 +942,21 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 ---
 
-## 🙏 Acknowledgments
+## ðŸ™ Acknowledgments
 
 - **Laravel Team** - For the amazing framework
 - **Docker Community** - For containerization tools
 - **GitHub** - For hosting and CI/CD infrastructure
 - **COMSATS Faculty** - For guidance and support
-- **Group 17 Team** - For collaboration and teamwork
 
----
-
-## 📞 Contact & Support
-
-For questions or issues related to this project:
-
-- **GitHub Repository**: [FA22-BSE-DevOps-MidLab](https://github.com/BuiltByWahabXD/FA22-BSE-DevOps-MidLab)
-- **Issues**: [GitHub Issues](https://github.com/BuiltByWahabXD/FA22-BSE-DevOps-MidLab/issues)
-- **Pull Requests**: [GitHub PRs](https://github.com/BuiltByWahabXD/FA22-BSE-DevOps-MidLab/pulls)
-
----
 
 <p align="center">
-  <strong>Built with ❤️ by Group 17</strong><br>
-  DevOps Mid-Lab Exam • COMSATS University • October 2025
+  <strong>Built with  by Abdul Wahab</strong><br>
+  DevOps Final Lab  COMSATS University  December 2025
 </p>
 
 ---
----
 
-**Last Updated**: October 30, 2025  
-**Version**: 1.0.0  
-**Status**: ✅ Active Development
-
- #   C I / C D   P i p e l i n e   R e a d y 
- 
- 
+**Last Updated**: December 18, 2025
+**Version**: 2.0.0
+**Status**:  Production Ready  CI/CD Pipeline Active
