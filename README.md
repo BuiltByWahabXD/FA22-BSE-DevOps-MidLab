@@ -1056,6 +1056,7 @@ For questions or issues related to this project:
 </p>
 
 ---
+---
 
 **Last Updated**: October 30, 2025  
 **Version**: 1.0.0  
