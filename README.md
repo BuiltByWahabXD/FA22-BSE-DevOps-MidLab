@@ -1,4 +1,4 @@
-﻿# Laravel Notes Application - DevOps Final Lab
+# Laravel Notes Application - DevOps Final Lab
 ### Complete CI/CD Pipeline with Infrastructure as Code
 
 ![Laravel](https://img.shields.io/badge/Laravel-11.x-red?style=flat-square&logo=laravel)
@@ -15,7 +15,7 @@
 
 ---
 
-## ðŸ“‹ Table of Contents
+## Table of Contents
 
 - [Quick Start](#-quick-start)
 - [How to Run Locally](#-how-to-run-locally)
@@ -30,7 +30,7 @@
 
 ---
 
-## ðŸš€ Quick Start
+## Quick Start
 
 This project demonstrates a complete DevOps pipeline with:
 - âœ… Automated CI/CD (GitHub Actions)
@@ -42,7 +42,7 @@ This project demonstrates a complete DevOps pipeline with:
 
 ---
 
-## ðŸ–¥ï¸ How to Run Locally
+## 🖥️ How to Run Locally
 
 ### Prerequisites
 - PHP 8.2+
@@ -53,8 +53,8 @@ This project demonstrates a complete DevOps pipeline with:
 
 ### Step 1: Clone Repository
 ```bash
-git clone https://github.com/BuiltByWahabXD/FA22-BSE-DevOps-FinalLab.git
-cd FA22-BSE-DevOps-FinalLab
+git clone https://github.com/BuiltByWahabXD/FA22-BSE-DevOps-MidLab.git
+cd FA22-BSE-DevOps-MidLab
 ```
 
 ### Step 2: Install Dependencies
@@ -113,7 +113,7 @@ php artisan serve
 
 ---
 
-## ðŸ³ Run via Docker Compose
+## 🐳 Run via Docker Compose
 
 ### Prerequisites
 - Docker Desktop
@@ -153,7 +153,7 @@ docker-compose logs -f app
 
 ---
 
-## â˜¸ï¸ Run via Kubernetes
+## ☸️ Run via Kubernetes
 
 ### Prerequisites
 - Minikube or local Kubernetes cluster
@@ -220,7 +220,7 @@ kubectl delete namespace dev
 
 ---
 
-## ðŸ—ï¸ Infrastructure Setup (Terraform)
+## 🏗️ Infrastructure Setup (Terraform)
 
 ### Prerequisites
 - Terraform 1.7+
@@ -302,30 +302,30 @@ aws elasticache describe-cache-clusters --region us-east-1
 
 ---
 
-## ðŸŽ¯ Features
+## 🎯 Features
 
 ### Application Features
-- âœ… Full CRUD operations for notes
-- âœ… Eloquent ORM for database interactions
-- âœ… Input validation and error handling
-- âœ… RESTful API design
-- âœ… Responsive UI with Blade templates
+- ✅ Full CRUD operations for notes
+- ✅ Eloquent ORM for database interactions
+- ✅ Input validation and error handling
+- ✅ RESTful API design
+- ✅ Responsive UI with Blade templates
 
 ### DevOps Features
-- ðŸ³ **Docker & Docker Compose**: Multi-container setup
-- â˜¸ï¸ **Kubernetes**: Full orchestration with Minikube
-- ðŸ—ï¸ **Terraform**: Infrastructure as Code for AWS ECS
-- ðŸ¤– **Ansible**: Automated deployment and configuration
-- ðŸ”„ **CI/CD Pipeline**: 6-stage automated workflow
-- ðŸ“Š **Prometheus**: Metrics collection and monitoring
-- ðŸ“ˆ **Grafana**: Visualization and dashboards
-- ðŸ”’ **Secret Management**: GitHub Secrets, K8s Secrets
-- ðŸ§ª **Automated Testing**: Comprehensive PHPUnit test suite
-- ðŸŽ¨ **Code Formatting**: Laravel Pint for consistent style
+- 🐳 **Docker & Docker Compose**: Multi-container setup
+- ☸️ **Kubernetes**: Full orchestration with Minikube
+- 🏗️ **Terraform**: Infrastructure as Code for AWS ECS
+- 🤖 **Ansible**: Automated deployment and configuration
+- 🔄 **CI/CD Pipeline**: 6-stage automated workflow
+- 📊 **Prometheus**: Metrics collection and monitoring
+- 📈 **Grafana**: Visualization and dashboards
+- 🔒 **Secret Management**: GitHub Secrets, K8s Secrets
+- 🧪 **Automated Testing**: Comprehensive PHPUnit test suite
+- 🎨 **Code Formatting**: Laravel Pint for consistent style
 
 ---
 
-## ðŸ› ï¸ Tech Stack
+## 🛠️ Tech Stack
 
 ### Backend
 - **Laravel 11.x** - Modern PHP framework
@@ -370,7 +370,7 @@ aws elasticache describe-cache-clusters --region us-east-1
 
 ---
 
-## ðŸ§ª Testing
+## 🧪 Testing
 
 Our application includes a comprehensive test suite to ensure code quality and functionality.
 
@@ -447,7 +447,7 @@ Our feature tests cover the complete CRUD functionality:
 
 ---
 
-## ðŸŽ¨ Code Quality & Linting
+## 🎨 Code Quality & Linting
 
 We use **Laravel Pint** to maintain consistent code style across the project.
 
@@ -471,11 +471,11 @@ docker-compose exec app ./vendor/bin/pint app/Models/Note.php
 
 Laravel Pint follows the PSR-12 coding standard with Laravel-specific conventions:
 
-- âœ… Consistent indentation (4 spaces)
-- âœ… Proper spacing around operators
-- âœ… Consistent brace placement
-- âœ… Proper import ordering
-- âœ… Consistent naming conventions
+- ✅ Consistent indentation (4 spaces)
+- ✅ Proper spacing around operators
+- ✅ Consistent brace placement
+- ✅ Proper import ordering
+- ✅ Consistent naming conventions
 
 ### Pre-Commit Checks
 
@@ -491,7 +491,7 @@ docker-compose exec app ./vendor/bin/pint --test
 
 ---
 
-## ðŸ”„ CI/CD Pipeline
+## 🔄 CI/CD Pipeline
 
 Our project uses **GitHub Actions** for automated continuous integration and deployment.
 
@@ -550,7 +550,7 @@ The following secrets must be configured in GitHub repository settings:
 
 ---
 
-## ðŸ“Š Monitoring
+## 📊 Monitoring
 
 Our application includes comprehensive monitoring using **Prometheus** and **Grafana**.
 
@@ -665,7 +665,7 @@ FA22-BSE-DevOps-FinalLab/
 
 ---
 
-## ðŸ³ Docker Configuration
+## 🐳 Docker Configuration
 
 ### Service Architecture
 
@@ -681,7 +681,7 @@ Our Docker Compose setup includes three services:
 - **Base Image**: nginx:alpine
 - **Configuration**: `docker/nginx/default.conf`
 - **Purpose**: Serves the application and handles HTTP requests
-- **Exposed Port**: 8080 (external) â†’ 80 (internal)
+- **Exposed Port**: 8080 (external) → 80 (internal)
 
 #### 3. Database Service (`mysql`)
 - **Base Image**: mysql:8.0
@@ -733,7 +733,7 @@ All services communicate via the `laravel-network` bridge network:
 
 ---
 
-## ðŸ—„ï¸ Database Management
+## 🗄️ Database Management
 
 ### Accessing the MySQL Database
 
@@ -788,7 +788,7 @@ You can connect to the MySQL database using tools like MySQL Workbench or phpMyA
 
 ---
 
-## ðŸ‘¥ Team & Contributions
+## 👥 Team & Contributions
 
 This project was developed as part of the **DevOps Final Lab** at COMSATS University.
 
@@ -798,67 +798,67 @@ This project was developed as part of the **DevOps Final Lab** at COMSATS Univer
 ### Contributions
 
 All aspects of this project were implemented including:
-- âœ… Infrastructure as Code (Terraform)
-- âœ… Container Orchestration (Kubernetes)
-- âœ… Configuration Management (Ansible)
-- âœ… CI/CD Pipeline (GitHub Actions)
-- âœ… Monitoring & Observability (Prometheus & Grafana)
-- âœ… Application Development (Laravel)
-- âœ… Testing & Quality Assurance
-- âœ… Documentation
+- ✅ Infrastructure as Code (Terraform)
+- ✅ Container Orchestration (Kubernetes)
+- ✅ Configuration Management (Ansible)
+- ✅ CI/CD Pipeline (GitHub Actions)
+- ✅ Monitoring & Observability (Prometheus & Grafana)
+- ✅ Application Development (Laravel)
+- ✅ Testing & Quality Assurance
+- ✅ Documentation
 
 ### Repository Information
 
-- **GitHub**: [FA22-BSE-DevOps-FinalLab](https://github.com/BuiltByWahabXD/FA22-BSE-DevOps-FinalLab)
+- **GitHub**: [FA22-BSE-DevOps-MidLab](https://github.com/BuiltByWahabXD/FA22-BSE-DevOps-MidLab)
 - **Docker Hub**: [builtbywahab/laravel-notes](https://hub.docker.com/r/builtbywahab/laravel-notes)
 
 ---
 
-## ðŸ“¸ Proof of Work
+## 📸 Proof of Work
 
 Comprehensive documentation and evidence of the DevOps implementation can be found in:
 
-ðŸ“„ **[DevOps Report](devops_report.md)** - Complete technical documentation
+📄 **[DevOps Report](devops_report.md)** - Complete technical documentation
 
 The report includes:
 
 ### Evidence Collected
 
 1. **Terraform Infrastructure**
-   - âœ… 32 AWS resources provisioned
-   - âœ… Terraform outputs and state
-   - âœ… AWS Console screenshots (VPC, ECS, RDS, Redis, ALB)
+   - ✅ 32 AWS resources provisioned
+   - ✅ Terraform outputs and state
+   - ✅ AWS Console screenshots (VPC, ECS, RDS, Redis, ALB)
 
 2. **Kubernetes Deployment**
-   - âœ… Minikube cluster setup
-   - âœ… All pods running (MySQL, Redis, Laravel)
-   - âœ… Services and networking configuration
-   - âœ… ConfigMaps and Secrets
+   - ✅ Minikube cluster setup
+   - ✅ All pods running (MySQL, Redis, Laravel)
+   - ✅ Services and networking configuration
+   - ✅ ConfigMaps and Secrets
 
 3. **Ansible Automation**
-   - âœ… Playbook execution (PLAY RECAP: 0 failed)
-   - âœ… Automated deployment proof
-   - âœ… Inventory configuration
+   - ✅ Playbook execution (PLAY RECAP: 0 failed)
+   - ✅ Automated deployment proof
+   - ✅ Inventory configuration
 
 4. **CI/CD Pipeline**
-   - âœ… GitHub Actions workflow (all 6 stages passing)
-   - âœ… Build and test logs
-   - âœ… Docker Hub integration
-   - âœ… Automated deployments
+   - ✅ GitHub Actions workflow (all 6 stages passing)
+   - ✅ Build and test logs
+   - ✅ Docker Hub integration
+   - ✅ Automated deployments
 
 5. **Monitoring Setup**
-   - âœ… Prometheus metrics collection
-   - âœ… Grafana dashboards
-   - âœ… Custom queries and alerts
+   - ✅ Prometheus metrics collection
+   - ✅ Grafana dashboards
+   - ✅ Custom queries and alerts
 
 6. **Testing Results**
-   - âœ… PHPUnit test execution (all passing)
-   - âœ… Code coverage reports
-   - âœ… CI/CD test logs
+   - ✅ PHPUnit test execution (all passing)
+   - ✅ Code coverage reports
+   - ✅ CI/CD test logs
 
 ---
 
-## ðŸ”§ Troubleshooting
+## 🔧 Troubleshooting
 
 ### Common Issues & Solutions
 
@@ -911,7 +911,7 @@ docker-compose exec app php artisan migrate --env=testing
 
 ---
 
-## ðŸ“š Additional Resources
+## 📚 Additional Resources
 
 ### Laravel Documentation
 - [Official Laravel Documentation](https://laravel.com/docs)
@@ -934,7 +934,7 @@ docker-compose exec app php artisan migrate --env=testing
 
 ---
 
-## ðŸ“„ License
+## 📄 License
 
 This project is developed for educational purposes as part of the DevOps Mid-Lab Exam at COMSATS University.
 
@@ -942,21 +942,33 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 ---
 
-## ðŸ™ Acknowledgments
+## 🙏 Acknowledgments
 
 - **Laravel Team** - For the amazing framework
 - **Docker Community** - For containerization tools
 - **GitHub** - For hosting and CI/CD infrastructure
+- **AWS** - For cloud infrastructure services
 - **COMSATS Faculty** - For guidance and support
 
+---
+
+## 📞 Contact & Support
+
+For questions or issues related to this project:
+
+- **GitHub Repository**: [FA22-BSE-DevOps-MidLab](https://github.com/BuiltByWahabXD/FA22-BSE-DevOps-MidLab)
+- **Issues**: [GitHub Issues](https://github.com/BuiltByWahabXD/FA22-BSE-DevOps-MidLab/issues)
+- **Pull Requests**: [GitHub PRs](https://github.com/BuiltByWahabXD/FA22-BSE-DevOps-MidLab/pulls)
+
+---
 
 <p align="center">
-  <strong>Built with  by Abdul Wahab</strong><br>
-  DevOps Final Lab  COMSATS University  December 2025
+  <strong>Built with ❤️ by Abdul Wahab & Team</strong><br>
+  DevOps Final Lab • COMSATS University • December 2025
 </p>
 
 ---
 
-**Last Updated**: December 18, 2025
-**Version**: 2.0.0
-**Status**:  Production Ready  CI/CD Pipeline Active
+**Last Updated**: December 18, 2025  
+**Version**: 2.0.0  
+**Status**: ✅ Production Ready • CI/CD Pipeline Active
