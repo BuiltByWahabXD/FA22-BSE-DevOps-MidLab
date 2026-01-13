@@ -801,8 +801,10 @@ You can connect to the MySQL database using tools like MySQL Workbench or phpMyA
 
 This project was developed as part of the **DevOps Final Lab** at COMSATS University.
 
-### Author
-**Abdul Wahab** - Full Stack Developer & DevOps Engineer
+### Team Members
+- **Abdul Wahab** - Full Stack Developer & DevOps Engineer
+- **Rana Usama Qamar** - Full Stack Developer
+- **Ali Zain** - Full Stack Developer
 
 ### Contributions
 
