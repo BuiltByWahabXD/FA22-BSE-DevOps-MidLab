@@ -15,7 +15,7 @@
 
 ---
 
-## Table of Contents
+## 📋 Table of Contents
 
 - [Quick Start](#-quick-start)
 - [How to Run Locally](#-how-to-run-locally)
@@ -23,22 +23,31 @@
 - [Run via Kubernetes](#-run-via-kubernetes)
 - [Infrastructure Setup](#-infrastructure-setup-terraform)
 - [Infrastructure Teardown](#-infrastructure-teardown)
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Testing](#-testing)
+- [Code Quality](#-code-quality--linting)
 - [CI/CD Pipeline](#-cicd-pipeline)
 - [Monitoring](#-monitoring)
 - [Project Structure](#-project-structure)
+- [Docker Configuration](#-docker-configuration)
+- [Database Management](#-database-management)
+- [Team & Contributions](#-team--contributions)
+- [Proof of Work](#-proof-of-work)
 - [Troubleshooting](#-troubleshooting)
+- [Additional Resources](#-additional-resources)
 
 ---
 
-## Quick Start
+## 🚀 Quick Start
 
 This project demonstrates a complete DevOps pipeline with:
-- âœ… Automated CI/CD (GitHub Actions)
-- âœ… Infrastructure as Code (Terraform)
-- âœ… Container Orchestration (Kubernetes)
-- âœ… Configuration Management (Ansible)
-- âœ… Monitoring & Observability (Prometheus & Grafana)
-- âœ… Cloud Deployment (AWS ECS)
+- ✅ Automated CI/CD (GitHub Actions)
+- ✅ Infrastructure as Code (Terraform)
+- ✅ Container Orchestration (Kubernetes)
+- ✅ Configuration Management (Ansible)
+- ✅ Monitoring & Observability (Prometheus & Grafana)
+- ✅ Cloud Deployment (AWS ECS)
 
 ---
 
@@ -272,7 +281,7 @@ terraform output alb_url
 
 ---
 
-## ðŸ’¥ Infrastructure Teardown
+## 💥 Infrastructure Teardown
 
 ### Terraform Destroy
 ```bash
@@ -283,14 +292,14 @@ terraform destroy
 Type `yes` to confirm.
 
 This will:
-- âœ… Destroy all AWS resources
-- âœ… Remove ECS cluster and tasks
-- âœ… Delete RDS database
-- âœ… Remove ElastiCache Redis
-- âœ… Delete ALB and target groups
-- âœ… Remove VPC and networking
+- ✅ Destroy all AWS resources
+- ✅ Remove ECS cluster and tasks
+- ✅ Delete RDS database
+- ✅ Remove ElastiCache Redis
+- ✅ Delete ALB and target groups
+- ✅ Remove VPC and networking
 
-**âš ï¸ WARNING:** This action is irreversible!
+**⚠️ WARNING:** This action is irreversible!
 
 ### Verify Cleanup
 ```bash
@@ -603,64 +612,64 @@ rate(http_requests_total[5m])
 
 ---
 
-## ðŸ“‚ Project Structure
+## 📂 Project Structure
 
 ```
 FA22-BSE-DevOps-FinalLab/
-â”œâ”€â”€ .github/
-â”‚   â””â”€â”€ workflows/
-â”‚       â””â”€â”€ laravel-ci-cd.yml      # CI/CD pipeline configuration
-â”œâ”€â”€ ansible/
-â”‚   â”œâ”€â”€ deploy.yml                  # Ansible playbook
-â”‚   â”œâ”€â”€ inventory.ini               # Inventory file
-â”‚   â””â”€â”€ run-deployment.ps1          # Deployment script
-â”œâ”€â”€ app/
-â”‚   â”œâ”€â”€ Http/Controllers/           # Application controllers
-â”‚   â””â”€â”€ Models/                     # Eloquent models
-â”‚       â”œâ”€â”€ Note.php
-â”‚       â””â”€â”€ User.php
-â”œâ”€â”€ config/                          # Laravel configuration files
-â”œâ”€â”€ database/
-â”‚   â”œâ”€â”€ migrations/                  # Database migrations
-â”‚   â””â”€â”€ seeders/                     # Database seeders
-â”œâ”€â”€ docker/
-â”‚   â”œâ”€â”€ nginx/
-â”‚   â”‚   â””â”€â”€ default.conf             # Nginx configuration
-â”‚   â””â”€â”€ php/
-â”‚       â””â”€â”€ Dockerfile               # PHP Docker image
-â”œâ”€â”€ infra/                           # Terraform infrastructure
-â”‚   â”œâ”€â”€ main.tf                      # Main Terraform config
-â”‚   â”œâ”€â”€ vpc.tf                       # VPC configuration
-â”‚   â”œâ”€â”€ ecs.tf                       # ECS cluster
-â”‚   â”œâ”€â”€ rds.tf                       # RDS MySQL
-â”‚   â”œâ”€â”€ redis.tf                     # ElastiCache Redis
-â”‚   â”œâ”€â”€ alb.tf                       # Load balancer
-â”‚   â”œâ”€â”€ security-groups.tf           # Security groups
-â”‚   â”œâ”€â”€ variables.tf                 # Input variables
-â”‚   â””â”€â”€ outputs.tf                   # Output values
-â”œâ”€â”€ k8s/                             # Kubernetes manifests
-â”‚   â”œâ”€â”€ namespace.yml
-â”‚   â”œâ”€â”€ configmap.yml
-â”‚   â”œâ”€â”€ secret.yml
-â”‚   â”œâ”€â”€ mysql/                       # MySQL deployment
-â”‚   â”œâ”€â”€ redis/                       # Redis deployment
-â”‚   â”œâ”€â”€ app/                         # Laravel app deployment
-â”‚   â””â”€â”€ monitoring-deployment.yml    # Prometheus & Grafana
-â”œâ”€â”€ resources/
-â”‚   â”œâ”€â”€ views/                       # Blade templates
-â”‚   â”œâ”€â”€ css/                         # Stylesheets
-â”‚   â””â”€â”€ js/                          # JavaScript files
-â”œâ”€â”€ routes/
-â”‚   â””â”€â”€ web.php                      # Application routes
-â”œâ”€â”€ tests/
-â”‚   â”œâ”€â”€ Feature/
-â”‚   â”‚   â””â”€â”€ NoteTest.php             # Feature tests
-â”‚   â””â”€â”€ Unit/                        # Unit tests
-â”œâ”€â”€ docker-compose.yml               # Docker Compose configuration
-â”œâ”€â”€ phpunit.xml                      # PHPUnit configuration
-â”œâ”€â”€ README.md                        # This file
-â”œâ”€â”€ devops_report.md                 # Technical documentation
-â””â”€â”€ DEPLOYMENT_CHECKLIST.md          # Deployment guide
+├── .github/
+│   └── workflows/
+│       └── laravel-ci-cd.yml      # CI/CD pipeline configuration
+├── ansible/
+│   ├── deploy.yml                  # Ansible playbook
+│   ├── inventory.ini               # Inventory file
+│   └── run-deployment.ps1          # Deployment script
+├── app/
+│   ├── Http/Controllers/           # Application controllers
+│   └── Models/                     # Eloquent models
+│       ├── Note.php
+│       └── User.php
+├── config/                          # Laravel configuration files
+├── database/
+│   ├── migrations/                  # Database migrations
+│   └── seeders/                     # Database seeders
+├── docker/
+│   ├── nginx/
+│   │   └── default.conf             # Nginx configuration
+│   └── php/
+│       └── Dockerfile               # PHP Docker image
+├── infra/                           # Terraform infrastructure
+│   ├── main.tf                      # Main Terraform config
+│   ├── vpc.tf                       # VPC configuration
+│   ├── ecs.tf                       # ECS cluster
+│   ├── rds.tf                       # RDS MySQL
+│   ├── redis.tf                     # ElastiCache Redis
+│   ├── alb.tf                       # Load balancer
+│   ├── security-groups.tf           # Security groups
+│   ├── variables.tf                 # Input variables
+│   └── outputs.tf                   # Output values
+├── k8s/                             # Kubernetes manifests
+│   ├── namespace.yml
+│   ├── configmap.yml
+│   ├── secret.yml
+│   ├── mysql/                       # MySQL deployment
+│   ├── redis/                       # Redis deployment
+│   ├── app/                         # Laravel app deployment
+│   └── monitoring-deployment.yml    # Prometheus & Grafana
+├── resources/
+│   ├── views/                       # Blade templates
+│   ├── css/                         # Stylesheets
+│   └── js/                          # JavaScript files
+├── routes/
+│   └── web.php                      # Application routes
+├── tests/
+│   ├── Feature/
+│   │   └── NoteTest.php             # Feature tests
+│   └── Unit/                        # Unit tests
+├── docker-compose.yml               # Docker Compose configuration
+├── phpunit.xml                      # PHPUnit configuration
+├── README.md                        # This file
+├── devops_report.md                 # Technical documentation
+└── DEPLOYMENT_CHECKLIST.md          # Deployment guide
 ```
 
 ---
@@ -936,7 +945,7 @@ docker-compose exec app php artisan migrate --env=testing
 
 ## 📄 License
 
-This project is developed for educational purposes as part of the DevOps Mid-Lab Exam at COMSATS University.
+This project is developed for educational purposes as part of the DevOps Final Lab at COMSATS University.
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
