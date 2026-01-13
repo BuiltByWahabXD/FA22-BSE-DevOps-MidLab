@@ -62,8 +62,8 @@ This project demonstrates a complete DevOps pipeline with:
 
 ### Step 1: Clone Repository
 ```bash
-git clone https://github.com/BuiltByWahabXD/FA22-BSE-DevOps-MidLab.git
-cd FA22-BSE-DevOps-MidLab
+git clone https://github.com/BuiltByWahabXD/FA22-BSE-DevOps-FinalLab.git
+cd FA22-BSE-DevOps-FinalLab
 ```
 
 ### Step 2: Install Dependencies
@@ -820,7 +820,7 @@ All aspects of this project were implemented including:
 
 ### Repository Information
 
-- **GitHub**: [FA22-BSE-DevOps-MidLab](https://github.com/BuiltByWahabXD/FA22-BSE-DevOps-MidLab)
+- **GitHub**: [FA22-BSE-DevOps-FinalLab](https://github.com/BuiltByWahabXD/FA22-BSE-DevOps-FinalLab)
 - **Docker Hub**: [builtbywahab/laravel-notes](https://hub.docker.com/r/builtbywahab/laravel-notes)
 
 ---
@@ -967,9 +967,9 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 For questions or issues related to this project:
 
-- **GitHub Repository**: [FA22-BSE-DevOps-MidLab](https://github.com/BuiltByWahabXD/FA22-BSE-DevOps-MidLab)
-- **Issues**: [GitHub Issues](https://github.com/BuiltByWahabXD/FA22-BSE-DevOps-MidLab/issues)
-- **Pull Requests**: [GitHub PRs](https://github.com/BuiltByWahabXD/FA22-BSE-DevOps-MidLab/pulls)
+- **GitHub Repository**: [FA22-BSE-DevOps-FinalLab](https://github.com/BuiltByWahabXD/FA22-BSE-DevOps-FinalLab)
+- **Issues**: [GitHub Issues](https://github.com/BuiltByWahabXD/FA22-BSE-DevOps-FinalLab/issues)
+- **Pull Requests**: [GitHub PRs](https://github.com/BuiltByWahabXD/FA22-BSE-DevOps-FinalLab/pulls)
 
 ---
 
